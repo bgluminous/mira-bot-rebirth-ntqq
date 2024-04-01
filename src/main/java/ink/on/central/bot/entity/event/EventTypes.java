@@ -3,7 +3,7 @@ package ink.on.central.bot.entity.event;
 public class EventTypes {
 
   /**
-   * 消息事件枚举
+   * 消息事件类型枚举
    *
    * @author BGLuminous
    * @since 1.0.0
@@ -14,7 +14,7 @@ public class EventTypes {
   }
 
   /**
-   * 元事件枚举
+   * 元事件类型枚举
    *
    * @author BGLuminous
    * @since 1.0.0
@@ -25,7 +25,7 @@ public class EventTypes {
   }
 
   /**
-   * 通知事件枚举
+   * 通知事件类型枚举
    *
    * @author BGLuminous
    * @since 1.0.0
@@ -43,7 +43,7 @@ public class EventTypes {
   }
 
   /**
-   * 请求事件枚举
+   * 请求事件类型枚举
    *
    * @author BGLuminous
    * @since 1.0.0

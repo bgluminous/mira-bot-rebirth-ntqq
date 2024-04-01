@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 /**
  * 群消息撤回事件 实体类
  * <br>
- * <a href="https://github.com/botuniverse/onebot-11/blob/master/event/notice.md#%E7%BE%A4%E6%B6%88%E6%81%AF%E6%92%A4%E5%9B%9E">查看文档</a>
+ * <a href="https://github.com/botuniverse/onebot-11/blob/master/event/notice.md#%E5%A5%BD%E5%8F%8B%E6%B6%88%E6%81%AF%E6%92%A4%E5%9B%9E">查看文档</a>
  * <br>
  * Create Time: 2024-04-01 Last Update:
  *
@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
  */
 @Accessors(chain = true)
 @Data
-public class GroupMessageRecallEvent {
+public class FriendMessageRecallEvent {
   /** 上报类型 */
   private String postType;
   /** 请求类型 */
@@ -27,12 +27,8 @@ public class GroupMessageRecallEvent {
   /** 收到事件的机器人 QQ 号 */
   private Long selfId;
 
-  /** 群号 */
-  private Long groupId;
   /** 加入者 QQ 号 */
   private Long userId;
-  /** 操作者 QQ 号（如果是主动退群，则和 user_id 相同） */
-  private Long operatorId;
   /** 被撤回的消息 ID */
   private Long messageId;
 }
