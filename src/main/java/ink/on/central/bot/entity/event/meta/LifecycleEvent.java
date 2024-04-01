@@ -1,6 +1,5 @@
 package ink.on.central.bot.entity.event.meta;
 
-import ink.on.central.bot.entity.event.EventTypes;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -20,7 +19,7 @@ public class LifecycleEvent {
   /** 上报类型 */
   private String postType;
   /** 元事件类型 */
-  private EventTypes.MetaEventTypes metaEventType;
+  private String metaEventType;
 
   /** 事件发生的时间戳 */
   private Long time;

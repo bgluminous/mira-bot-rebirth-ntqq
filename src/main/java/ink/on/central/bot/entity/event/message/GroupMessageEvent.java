@@ -1,6 +1,5 @@
 package ink.on.central.bot.entity.event.message;
 
-import ink.on.central.bot.entity.event.EventTypes;
 import ink.on.central.bot.entity.event.message.pojo.GroupAnonymousPojo;
 import ink.on.central.bot.entity.event.message.pojo.GroupSenderPojo;
 import ink.on.central.bot.entity.event.message.types.GroupMessageSubTypes;
@@ -23,7 +22,7 @@ public class GroupMessageEvent {
   /** 上报类型 */
   private String postType;
   /** 请求类型 */
-  private EventTypes.MessageTypes messageType;
+  private String messageType;
 
   /** 事件发生的时间戳 */
   private Long time;

@@ -1,7 +1,5 @@
 package ink.on.central.bot.entity.event.notice;
 
-import ink.on.central.bot.entity.event.EventTypes;
-import ink.on.central.bot.entity.event.notice.types.GroupAdminChangedSubTypes;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -21,7 +19,7 @@ public class GroupAdminChangedEvent {
   /** 上报类型 */
   private String postType;
   /** 请求类型 */
-  private EventTypes.NoticeTypes noticeType;
+  private String noticeType;
 
   /** 事件发生的时间戳 */
   private Long time;
@@ -29,7 +27,8 @@ public class GroupAdminChangedEvent {
   private Long selfId;
 
   /** 事件子类型，分别表示设置和取消管理员 */
-  private GroupAdminChangedSubTypes subTypes;
+  private String
+    subTypes;
   /** 群号 */
   private Long groupId;
   /** 管理员 QQ 号 */

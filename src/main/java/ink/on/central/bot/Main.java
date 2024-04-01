@@ -3,7 +3,7 @@ package ink.on.central.bot;
 import java.net.URI;
 
 public class Main {
-  private static final String BOT_WS_URL = "ws://test.com:1/";
+  private static final String BOT_WS_URL = "ws://host.mmd.ink:4000/";
 
   @SuppressWarnings("all")
   public static void main(String[] args) {

@@ -1,5 +1,6 @@
 package ink.on.central.bot;
 
+import ink.on.central.bot.adapter.EventAdapter;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
@@ -18,7 +19,7 @@ public class BotInstanceWorker extends WebSocketClient {
 
   @Override
   public void onMessage(String message) {
-
+    EventAdapter.analyzer(message);
   }
 
   @Override

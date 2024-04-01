@@ -1,7 +1,5 @@
 package ink.on.central.bot.entity.event.notice;
 
-import ink.on.central.bot.entity.event.EventTypes;
-import ink.on.central.bot.entity.event.notice.types.GroupMemberIncreaseSubTypes;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -21,7 +19,7 @@ public class GroupMemberIncreaseEvent {
   /** 上报类型 */
   private String postType;
   /** 请求类型 */
-  private EventTypes.NoticeTypes noticeType;
+  private String noticeType;
 
   /** 事件发生的时间戳 */
   private Long time;
@@ -30,7 +28,7 @@ public class GroupMemberIncreaseEvent {
 
 
   /** 事件子类型，分别表示管理员已同意入群、管理员邀请入群 */
-  private GroupMemberIncreaseSubTypes subTypes;
+  private String subTypes;
   /** 群号 */
   private Long groupId;
   /** 操作者 QQ 号（如果是主动退群，则和 user_id 相同） */

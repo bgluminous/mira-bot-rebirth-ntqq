@@ -1,7 +1,5 @@
 package ink.on.central.bot.entity.event.notice;
 
-import ink.on.central.bot.entity.event.EventTypes;
-import ink.on.central.bot.entity.event.notice.types.GroupMemberBannedSubTypes;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -17,11 +15,11 @@ import lombok.experimental.Accessors;
  */
 @Accessors(chain = true)
 @Data
-public class GroupMemberBannedEvent {
+public class GroupMemberBanEvent {
   /** 上报类型 */
   private String postType;
   /** 请求类型 */
-  private EventTypes.NoticeTypes noticeType;
+  private String noticeType;
 
   /** 事件发生的时间戳 */
   private Long time;
@@ -29,7 +27,7 @@ public class GroupMemberBannedEvent {
   private Long selfId;
 
   /** 事件子类型，分别表示禁言、解除禁言 */
-  private GroupMemberBannedSubTypes subTypes;
+  private String subTypes;
   /** 群号 */
   private Long groupId;
   /** 操作者 QQ 号（如果是主动退群，则和 user_id 相同） */

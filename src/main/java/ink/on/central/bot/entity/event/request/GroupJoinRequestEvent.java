@@ -1,7 +1,5 @@
 package ink.on.central.bot.entity.event.request;
 
-import ink.on.central.bot.entity.event.EventTypes;
-import ink.on.central.bot.entity.event.request.types.GroupJoinRequestSubTypes;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -21,7 +19,7 @@ public class GroupJoinRequestEvent {
   /** 上报类型 */
   private String postType;
   /** 请求类型 */
-  private EventTypes.RequestTypes requestType;
+  private String requestType;
 
   /** 事件发生的时间戳 */
   private Long time;
@@ -29,7 +27,7 @@ public class GroupJoinRequestEvent {
   private Long selfId;
 
   /** 请求子类型，分别表示加群请求、邀请登录号入群 */
-  private GroupJoinRequestSubTypes subType;
+  private String subType;
   /** 群号 */
   private Long groupId;
   /** 发送请求的 QQ 号 */

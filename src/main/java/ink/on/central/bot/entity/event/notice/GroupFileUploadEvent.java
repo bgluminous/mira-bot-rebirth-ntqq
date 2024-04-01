@@ -1,6 +1,5 @@
 package ink.on.central.bot.entity.event.notice;
 
-import ink.on.central.bot.entity.event.EventTypes;
 import ink.on.central.bot.entity.event.notice.pojo.GroupFilePojo;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -21,7 +20,7 @@ public class GroupFileUploadEvent {
   /** 上报类型 */
   private String postType;
   /** 请求类型 */
-  private EventTypes.NoticeTypes noticeType;
+  private String noticeType;
 
   /** 事件发生的时间戳 */
   private Long time;

@@ -1,6 +1,5 @@
 package ink.on.central.bot.entity.event.notice;
 
-import ink.on.central.bot.entity.event.EventTypes;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -20,7 +19,7 @@ public class GroupNotifyEvent {
   /** 上报类型 */
   private String postType;
   /** 请求类型 */
-  private EventTypes.NoticeTypes noticeType;
+  private String noticeType;
 
   /** 事件发生的时间戳 */
   private Long time;
@@ -35,4 +34,6 @@ public class GroupNotifyEvent {
   private Long userId;
   /** 被戳者 QQ 号 */
   private Long targetId;
+  /** 荣誉类型，分别表示龙王、群聊之火、快乐源泉 */
+  private String honorType;
 }
