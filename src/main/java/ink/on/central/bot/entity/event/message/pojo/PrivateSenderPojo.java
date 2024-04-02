@@ -1,6 +1,5 @@
 package ink.on.central.bot.entity.event.message.pojo;
 
-import ink.on.central.bot.entity.event.message.types.SexTypes;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -22,7 +21,7 @@ public class PrivateSenderPojo {
   /** 昵称 */
   private String nickname;
   /** 性别，male 或 female 或 unknown */
-  private SexTypes sex;
+  private String sex;
   /** 年龄 */
   private String age;
 }

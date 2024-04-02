@@ -14,7 +14,31 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
+  <!-- snapshot repositories -->
+  <repositories>
+    <repository>
+      <id>ark-nexus</id>
+      <name>ark-nexus</name>
+      <url>https://nexus.kiiiv.com/repository/maven-public/</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
   <dependencies>
+    <dependency>
+      <groupId>ink.ik.tools</groupId>
+      <artifactId>ik-tools</artifactId>
+      <version>0.0.8-20231109.070933-2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.heavenark.infrastructure</groupId>
+      <artifactId>ark-log</artifactId>
+      <version>3.0.2</version>
+    </dependency>
+
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>

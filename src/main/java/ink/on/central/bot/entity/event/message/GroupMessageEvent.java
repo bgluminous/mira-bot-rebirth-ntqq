@@ -2,9 +2,11 @@ package ink.on.central.bot.entity.event.message;
 
 import ink.on.central.bot.entity.event.message.pojo.GroupAnonymousPojo;
 import ink.on.central.bot.entity.event.message.pojo.GroupSenderPojo;
-import ink.on.central.bot.entity.event.message.types.GroupMessageSubTypes;
 import lombok.Data;
 import lombok.experimental.Accessors;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 群消息 实体类
@@ -28,18 +30,23 @@ public class GroupMessageEvent {
   private Long time;
   /** 收到事件的机器人 QQ 号 */
   private Long selfId;
+
   /** 消息子类型，正常消息是 normal，匿名消息是 anonymous，系统提示（如「管理员已禁止群内匿名聊天」）是 notice */
-  private GroupMessageSubTypes subType;
+  private String subType;
+  /** 消息格式 (文档中没有说明) */
+  private String messageFormat;
   /** 消息 ID */
   private Integer messageId;
+  /** 未知属性 (文档中没有说明) */
+  private Long realId;
   /** 群号 */
   private Long groupId;
   /** 发送者 QQ 号 */
   private Long userId;
   /** 匿名发送人信息，如果不是匿名消息则为 null */
   private GroupAnonymousPojo anonymous;
-  /** 消息内容 TODO: 待解析 */
-  private Object message;
+  /** 消息内容 */
+  private List<Map<String, Object>> message;
   /** 原始消息内容 */
   private String rawMessage;
   /** 字体 */

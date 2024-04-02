@@ -1,7 +1,5 @@
 package ink.on.central.bot.entity.event.message.pojo;
 
-import ink.on.central.bot.entity.event.message.types.GroupMemberRoleTypes;
-import ink.on.central.bot.entity.event.message.types.SexTypes;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -26,7 +24,7 @@ public class GroupSenderPojo {
   /** 群名片／备注 */
   private String card;
   /** 性别，male 或 female 或 unknown */
-  private SexTypes sex;
+  private String sex;
   /** 年龄 */
   private String age;
   /** 地区 */
@@ -34,7 +32,7 @@ public class GroupSenderPojo {
   /** 成员等级 */
   private String level;
   /** 角色，owner 或 admin 或 member */
-  private GroupMemberRoleTypes role;
+  private String role;
   /** 专属头衔 */
   private String title;
 }

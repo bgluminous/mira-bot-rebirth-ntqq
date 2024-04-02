@@ -1,9 +1,11 @@
 package ink.on.central.bot.entity.event.message;
 
 import ink.on.central.bot.entity.event.message.pojo.PrivateSenderPojo;
-import ink.on.central.bot.entity.event.message.types.PrivateMessageSubType;
 import lombok.Data;
 import lombok.experimental.Accessors;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 私信 实体类
@@ -29,13 +31,17 @@ public class PrivateMessageEvent {
   private Long selfId;
 
   /** 消息子类型，如果是好友则是 friend，如果是群临时会话则是 group */
-  private PrivateMessageSubType subType;
+  private String subType;
+  /** 消息格式 (文档中没有说明) */
+  private String messageFormat;
   /** 消息 ID */
   private Integer messageId;
+  /** 未知属性 (文档中没有说明) */
+  private Long realId;
   /** 发送者 QQ 号 */
   private Long userId;
-  /** 消息内容 TODO: 待解析 */
-  private Object message;
+  /** 消息内容 */
+  private List<Map<String, Object>> message;
   /** 原始消息内容 */
   private String rawMessage;
   /** 字体 */
