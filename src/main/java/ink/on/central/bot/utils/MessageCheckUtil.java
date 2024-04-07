@@ -11,9 +11,9 @@ import java.util.Map;
  * @version 1.0.0
  * @since 1.0.0
  **/
-public class MessageQuickVerifyUtil {
+public class MessageCheckUtil {
 
-  private MessageQuickVerifyUtil() {
+  private MessageCheckUtil() {
   }
 
   /**
@@ -24,7 +24,7 @@ public class MessageQuickVerifyUtil {
    *
    * @return 是否为纯文本消息且验证通过
    */
-  public boolean isPureTextMessage(List<Map<String, Object>> messageList, String message) {
+  public static boolean isPureTextMessage(List<Map<String, Object>> messageList, String message) {
     return messageList.size() == 1
       && messageList.get(0).get("type").equals("text")
       && messageList.get(0).get("data").equals(Map.of("text", message));

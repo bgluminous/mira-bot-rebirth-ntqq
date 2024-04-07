@@ -1,8 +1,10 @@
 package ink.on.central.bot.utils;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 
@@ -24,6 +26,10 @@ public class JacksonUtil {
     objectMapper = new ObjectMapper();
     // 驼峰转下划线
     objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+    // 不序列化NULL
+    objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    // 忽略不存在的参数
+    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
   }
 
   /**
@@ -52,6 +58,19 @@ public class JacksonUtil {
    */
   public static <T> T parse(String json, Class<T> typeClass) throws JsonProcessingException {
     return Holder.INSTANCE.objectMapper.readValue(json, typeClass);
+  }
+
+  /**
+   * 对象转json字符串
+   *
+   * @param o 对象
+   *
+   * @return json字符串
+   *
+   * @throws JsonProcessingException json解析异常
+   */
+  public static String toJsonString(Object o) throws JsonProcessingException {
+    return Holder.INSTANCE.objectMapper.writeValueAsString(o);
   }
 
   /**

@@ -1,6 +1,8 @@
 package ink.on.central.bot;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.heavenark.infrastructure.log.LogFactory;
+import com.heavenark.infrastructure.log.Logger;
 import ink.ik.tools.wrapper.IkWrapperJackson;
 import ink.ik.tools.wrapper.IkWrapperSnakeYaml;
 import ink.ik.tools.wrapper.IkWrapperToml;
@@ -8,17 +10,16 @@ import ink.on.central.bot.entity.config.BotConfig;
 import ink.on.central.bot.exception.MiraBotError;
 
 import java.io.InputStream;
-import java.net.URI;
 
 public class MainStarter {
+  private static final Logger LOGGER = LogFactory.getLogger(MainStarter.class);
 
-  @SuppressWarnings("all")
   public static void main(String[] args) {
     BotConfig config = initConfig();
     try {
-      new BotInstanceWorker(new URI(config.getBotSocketUrl())).connect();
-    } catch (Exception e) {
-      e.printStackTrace();
+      new BotInstance(true, config.getBotSocketUrl(), "").boot();
+    } catch (Exception ex) {
+      LOGGER.err(ex);
     }
   }
 

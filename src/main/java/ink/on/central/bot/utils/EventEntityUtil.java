@@ -2,13 +2,14 @@ package ink.on.central.bot.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import ink.on.central.bot.EventEntityMapper;
+import ink.on.central.bot.entity.event.AnalyzedEvent;
 import ink.on.central.bot.exception.BotEventParseException;
 import ink.on.central.bot.exception.MiraBotException;
 
 import java.util.Map;
 
 /**
- * 事件实体工具类
+ * 事件实体分析工具
  * <p>
  * Create Time: 2024-03-29 Last Update:
  *
@@ -30,8 +31,12 @@ public class EventEntityUtil {
    * @throws MiraBotException        找不到事件实体映射
    * @throws JsonProcessingException 解析事件Json失败
    */
-  public static Object analyzer(String json) throws MiraBotException, JsonProcessingException {
+  public static AnalyzedEvent analyzer(String json)
+    throws MiraBotException, JsonProcessingException {
     Map<String, Object> nodeMap = JacksonUtil.getNodeMap(json);
+    if (nodeMap.get("retcode") != null) {
+      return new AnalyzedEvent().setEventType("return").setData(json);
+    }
     String eventType = nodeMap.get("post_type").toString();
     String subType;
     switch (eventType) {
@@ -45,7 +50,11 @@ public class EventEntityUtil {
     if (eventEntityClass == null) {
       throw new MiraBotException("未实现的事件类型! [%s > %s]".formatted(eventType, subType));
     }
-    return JacksonUtil.parse(json, eventEntityClass);
+    Object data = JacksonUtil.parse(json, eventEntityClass);
+    return new AnalyzedEvent()
+      .setEventType(eventType)
+      .setSubType(subType)
+      .setData(data);
   }
 
 }
