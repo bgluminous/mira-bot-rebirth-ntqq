@@ -3,6 +3,7 @@ package ink.on.central.bot.template.request;
 import ink.on.central.bot.BotInstance;
 import ink.on.central.bot.entity.event.request.GroupJoinRequestEvent;
 import ink.on.central.bot.template.ProcessorTemplate;
+import ink.on.central.bot.utils.SenderUtil;
 
 /**
  * 群邀请事件 处理器模板
@@ -17,8 +18,8 @@ import ink.on.central.bot.template.ProcessorTemplate;
 @SuppressWarnings("unused")
 public class PTGroupJoinRequest extends ProcessorTemplate<GroupJoinRequestEvent> {
 
-  public PTGroupJoinRequest(BotInstance instance) {
-    super(instance, "request", "group");
+  public PTGroupJoinRequest(BotInstance instance, SenderUtil sender) {
+    super(instance, sender, "request", "group");
   }
 
 }

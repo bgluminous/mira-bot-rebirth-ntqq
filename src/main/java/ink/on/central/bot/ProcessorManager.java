@@ -6,6 +6,7 @@ import ink.on.central.bot.annotation.MiraBotProcessor;
 import ink.on.central.bot.entity.event.AnalyzedEvent;
 import ink.on.central.bot.exception.MiraBotError;
 import ink.on.central.bot.template.ProcessorTemplate;
+import ink.on.central.bot.utils.SenderUtil;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,13 +66,14 @@ public class ProcessorManager {
   public static void registerProcessor(
     BotInstance botInstance
   ) {
+    SenderUtil sender = new SenderUtil(botInstance);
     Holder.INSTANCE.processorClassSet.forEach(e -> {
       // 尝试构建事件处理器
       try {
         ProcessorTemplate processor =
           (ProcessorTemplate) new IkToyReflection<>(e)
-            .findConstructor(BotInstance.class)
-            .newInstance(botInstance);
+            .findConstructor(BotInstance.class, SenderUtil.class)
+            .newInstance(botInstance, sender);
         String registerEventTarget = processor.getEventId();
         compareAndInject(registerEventTarget, processor);
       } catch (IkToolsReflectionException ex) {

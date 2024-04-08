@@ -3,6 +3,7 @@ package ink.on.central.bot.template.meta;
 import ink.on.central.bot.BotInstance;
 import ink.on.central.bot.entity.event.meta.LifecycleEvent;
 import ink.on.central.bot.template.ProcessorTemplate;
+import ink.on.central.bot.utils.SenderUtil;
 
 /**
  * 心跳检查事件 处理器模板
@@ -17,8 +18,8 @@ import ink.on.central.bot.template.ProcessorTemplate;
 @SuppressWarnings("unused")
 public class PTLifecycle extends ProcessorTemplate<LifecycleEvent> {
 
-  public PTLifecycle(BotInstance instance) {
-    super(instance, "meta_event", "lifecycle");
+  public PTLifecycle(BotInstance instance, SenderUtil sender) {
+    super(instance, sender, "meta_event", "lifecycle");
   }
 
 }

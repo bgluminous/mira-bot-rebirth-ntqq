@@ -3,6 +3,7 @@ package ink.on.central.bot.template.message;
 import ink.on.central.bot.BotInstance;
 import ink.on.central.bot.entity.event.message.PrivateMessageEvent;
 import ink.on.central.bot.template.ProcessorTemplate;
+import ink.on.central.bot.utils.SenderUtil;
 
 /**
  * 私信 处理器模板
@@ -17,8 +18,8 @@ import ink.on.central.bot.template.ProcessorTemplate;
 @SuppressWarnings("unused")
 public class PTPrivateMessage extends ProcessorTemplate<PrivateMessageEvent> {
 
-  public PTPrivateMessage(BotInstance instance) {
-    super(instance, "message", "private");
+  public PTPrivateMessage(BotInstance instance, SenderUtil sender) {
+    super(instance, sender, "message", "private");
   }
 
 }

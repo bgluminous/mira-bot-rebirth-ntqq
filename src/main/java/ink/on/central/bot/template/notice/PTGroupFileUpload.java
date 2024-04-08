@@ -2,6 +2,7 @@ package ink.on.central.bot.template.notice;
 
 import ink.on.central.bot.BotInstance;
 import ink.on.central.bot.template.ProcessorTemplate;
+import ink.on.central.bot.utils.SenderUtil;
 
 /**
  * 群上传文件事件 处理器模板
@@ -16,8 +17,8 @@ import ink.on.central.bot.template.ProcessorTemplate;
 @SuppressWarnings("unused")
 public class PTGroupFileUpload extends ProcessorTemplate<PTGroupFileUpload> {
 
-  public PTGroupFileUpload(BotInstance instance) {
-    super(instance, "notice", "group_upload");
+  public PTGroupFileUpload(BotInstance instance, SenderUtil sender) {
+    super(instance, sender, "notice", "group_upload");
   }
 
 }

@@ -3,6 +3,7 @@ package ink.on.central.bot.template.message;
 import ink.on.central.bot.BotInstance;
 import ink.on.central.bot.entity.event.message.GroupMessageEvent;
 import ink.on.central.bot.template.ProcessorTemplate;
+import ink.on.central.bot.utils.SenderUtil;
 
 /**
  * 群消息 处理器模板
@@ -17,8 +18,8 @@ import ink.on.central.bot.template.ProcessorTemplate;
 @SuppressWarnings("unused")
 public class PTGroupMessage extends ProcessorTemplate<GroupMessageEvent> {
 
-  public PTGroupMessage(BotInstance instance) {
-    super(instance,"message", "group");
+  public PTGroupMessage(BotInstance instance, SenderUtil sender) {
+    super(instance, sender,"message", "group");
   }
 
 }

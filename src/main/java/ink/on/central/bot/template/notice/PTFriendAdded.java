@@ -3,6 +3,7 @@ package ink.on.central.bot.template.notice;
 import ink.on.central.bot.BotInstance;
 import ink.on.central.bot.entity.event.notice.FriendAddedEvent;
 import ink.on.central.bot.template.ProcessorTemplate;
+import ink.on.central.bot.utils.SenderUtil;
 
 /**
  * 好友添加事件 处理器模板
@@ -17,8 +18,8 @@ import ink.on.central.bot.template.ProcessorTemplate;
 @SuppressWarnings("unused")
 public class PTFriendAdded extends ProcessorTemplate<FriendAddedEvent> {
 
-  public PTFriendAdded(BotInstance instance) {
-    super(instance, "notice", "friend_add");
+  public PTFriendAdded(BotInstance instance, SenderUtil sender) {
+    super(instance, sender, "notice", "friend_add");
   }
 
 }

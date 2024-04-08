@@ -5,7 +5,6 @@ import ink.on.central.bot.entity.config.BotConfig;
 import ink.on.central.bot.entity.event.AnalyzedEvent;
 import ink.on.central.bot.exception.MiraBotException;
 import ink.on.central.bot.utils.EventUtil;
-import ink.on.central.bot.utils.SenderUtil;
 import lombok.Getter;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
@@ -29,9 +28,6 @@ public class BotInstance {
   /** socket连接 */
   @Getter
   private final BotSocketClient connect;
-  /** 动作发送器 */
-  @Getter
-  private final SenderUtil sender;
 
   /** 配置信息 */
   private final BotConfig config = ConfigManager.getConfig();
@@ -43,7 +39,6 @@ public class BotInstance {
     if (config.getToken() != null) {
       connect.addHeader("Authorization", "Bearer %s".formatted(config.getToken()));
     }
-    sender = new SenderUtil(this);
   }
 
   /** 启动BOT */
@@ -100,7 +95,7 @@ public class BotInstance {
         AnalyzedEvent analyzedEvent = EventUtil.analyzer(data);
         if (Objects.equals(analyzedEvent.getEventType(), "retcode")) {
           // 暂不处理retcode类型
-          log.debug("{}", analyzedEvent);
+          log.trace("{}", analyzedEvent);
           return;
         }
         log.trace("解析到事件实体: {}", analyzedEvent);

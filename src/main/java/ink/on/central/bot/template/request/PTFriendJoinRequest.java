@@ -3,6 +3,7 @@ package ink.on.central.bot.template.request;
 import ink.on.central.bot.BotInstance;
 import ink.on.central.bot.entity.event.request.FriendJoinRequestEvent;
 import ink.on.central.bot.template.ProcessorTemplate;
+import ink.on.central.bot.utils.SenderUtil;
 
 
 /**
@@ -18,8 +19,8 @@ import ink.on.central.bot.template.ProcessorTemplate;
 @SuppressWarnings("unused")
 public class PTFriendJoinRequest extends ProcessorTemplate<FriendJoinRequestEvent> {
 
-  public PTFriendJoinRequest(BotInstance instance) {
-    super(instance, "request", "friend");
+  public PTFriendJoinRequest(BotInstance instance, SenderUtil sender) {
+    super(instance, sender, "request", "friend");
   }
 
 }

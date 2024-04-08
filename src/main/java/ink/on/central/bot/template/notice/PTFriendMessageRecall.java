@@ -3,6 +3,7 @@ package ink.on.central.bot.template.notice;
 import ink.on.central.bot.BotInstance;
 import ink.on.central.bot.entity.event.notice.FriendMessageRecallEvent;
 import ink.on.central.bot.template.ProcessorTemplate;
+import ink.on.central.bot.utils.SenderUtil;
 
 /**
  * 群消息撤回事件 处理器模板
@@ -17,8 +18,8 @@ import ink.on.central.bot.template.ProcessorTemplate;
 @SuppressWarnings("unused")
 public class PTFriendMessageRecall extends ProcessorTemplate<FriendMessageRecallEvent> {
 
-  public PTFriendMessageRecall(BotInstance instance) {
-    super(instance, "notice", "friend_recall");
+  public PTFriendMessageRecall(BotInstance instance, SenderUtil sender) {
+    super(instance, sender, "notice", "friend_recall");
   }
 
 }

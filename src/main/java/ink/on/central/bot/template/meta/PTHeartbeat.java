@@ -3,6 +3,7 @@ package ink.on.central.bot.template.meta;
 import ink.on.central.bot.BotInstance;
 import ink.on.central.bot.entity.event.meta.HeartbeatEvent;
 import ink.on.central.bot.template.ProcessorTemplate;
+import ink.on.central.bot.utils.SenderUtil;
 
 /**
  * 生命周期事件 处理器模板
@@ -17,8 +18,8 @@ import ink.on.central.bot.template.ProcessorTemplate;
 @SuppressWarnings("unused")
 public class PTHeartbeat extends ProcessorTemplate<HeartbeatEvent> {
 
-  public PTHeartbeat(BotInstance instance) {
-    super(instance, "meta_event", "heartbeat");
+  public PTHeartbeat(BotInstance instance, SenderUtil sender) {
+    super(instance, sender, "meta_event", "heartbeat");
   }
 
 }
