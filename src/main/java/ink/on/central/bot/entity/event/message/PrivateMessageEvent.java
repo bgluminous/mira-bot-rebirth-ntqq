@@ -1,6 +1,6 @@
 package ink.on.central.bot.entity.event.message;
 
-import ink.on.central.bot.entity.event.message.pojo.PrivateSenderPojo;
+import ink.on.central.bot.entity.event.message.pojo.SenderPojo;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -47,5 +47,5 @@ public class PrivateMessageEvent {
   /** 字体 */
   private Integer font;
   /** 发送人信息 */
-  private PrivateSenderPojo sender;
+  private SenderPojo sender;
 }

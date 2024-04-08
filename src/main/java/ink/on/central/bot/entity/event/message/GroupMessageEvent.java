@@ -1,7 +1,7 @@
 package ink.on.central.bot.entity.event.message;
 
 import ink.on.central.bot.entity.event.message.pojo.GroupAnonymousPojo;
-import ink.on.central.bot.entity.event.message.pojo.GroupSenderPojo;
+import ink.on.central.bot.entity.event.message.pojo.SenderPojo;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -52,5 +52,5 @@ public class GroupMessageEvent {
   /** 字体 */
   private Integer font;
   /** 发送人信息 */
-  private GroupSenderPojo sender;
+  private SenderPojo sender;
 }

@@ -36,6 +36,11 @@ public class SenderUtil {
     instance.getConnect().send(JacksonUtil.toJsonString(wrap));
   }
 
+  public void sendRaw(String action, String paramsJson, Long echo) throws JsonProcessingException {
+    SendSocketWrap wrap = createWrap(action, paramsJson, echo);
+    instance.getConnect().send(JacksonUtil.toJsonString(wrap));
+  }
+
   public Long sendPrivateMessage(Long qqId, List<MessagePart<?>> messagePartList)
     throws JsonProcessingException {
     Long id = IkToySnowflakeSingleton.getInstance().nextId();

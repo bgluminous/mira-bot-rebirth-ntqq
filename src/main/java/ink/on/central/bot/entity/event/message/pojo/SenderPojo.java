@@ -5,7 +5,7 @@ import lombok.experimental.Accessors;
 
 
 /**
- * 群消息发送者 实体类
+ * 发送者 实体类 (集成了 群消息和私信的部分)
  * <br>
  * <a href="https://github.com/botuniverse/onebot-11/blob/master/event/message.md#%E7%BE%A4%E6%B6%88%E6%81%AF">查看文档</a>
  * <br>
@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
  */
 @Accessors(chain = true)
 @Data
-public class GroupSenderPojo {
+public class SenderPojo {
   /** 发送者 QQ 号 */
   private Long userId;
   /** 昵称 */
