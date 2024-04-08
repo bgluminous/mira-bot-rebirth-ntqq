@@ -1,5 +1,8 @@
 package ink.on.central.bot.entity.action;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 /**
  * 获取图片载体 实体类
  * <br>
@@ -10,7 +13,8 @@ package ink.on.central.bot.entity.action;
  * @author BGLuminous
  * @since 1.0.0
  */
-@SuppressWarnings("unused")
+@Accessors(chain = true)
+@Data
 public class SendGetImage {
   /** 收到的图片文件名（消息段的 file 参数），如 6B4DE3DFD1BD271E3297859D41C530F5.jpg */
   private String file;

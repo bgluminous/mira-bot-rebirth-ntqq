@@ -3,7 +3,7 @@ package ink.on.central.bot.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import ink.on.central.bot.EventEntityMapper;
 import ink.on.central.bot.entity.event.AnalyzedEvent;
-import ink.on.central.bot.exception.BotEventParseException;
+import ink.on.central.bot.exception.MiraBotEventParseException;
 import ink.on.central.bot.exception.MiraBotException;
 
 import java.util.Map;
@@ -44,7 +44,7 @@ public class EventUtil {
       case "notice" -> subType = nodeMap.get("notice_type").toString();
       case "request" -> subType = nodeMap.get("request_type").toString();
       case "message" -> subType = nodeMap.get("message_type").toString();
-      default -> throw new BotEventParseException("未知的事件类型! [%s]".formatted(eventType));
+      default -> throw new MiraBotEventParseException("未知的事件类型! [%s]".formatted(eventType));
     }
     Class<?> eventEntityClass = EventEntityMapper.getEventEntity(eventType, subType);
     if (eventEntityClass == null) {

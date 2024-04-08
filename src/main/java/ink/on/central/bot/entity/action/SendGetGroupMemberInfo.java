@@ -1,5 +1,8 @@
 package ink.on.central.bot.entity.action;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 /**
  * 获取群成员信息载体 实体类
  * <br>
@@ -10,7 +13,8 @@ package ink.on.central.bot.entity.action;
  * @author BGLuminous
  * @since 1.0.0
  */
-@SuppressWarnings("unused")
+@Accessors(chain = true)
+@Data
 public class SendGetGroupMemberInfo {
   /** QQ 号 */
   private Long userId;
