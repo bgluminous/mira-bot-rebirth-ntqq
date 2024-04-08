@@ -20,4 +20,8 @@ public class AnalyzedEvent {
   private String subType;
   /** 事件信息载体（已经转换为实体类） */
   private Object data;
+
+  public String getEventId() {
+    return eventType + subType;
+  }
 }

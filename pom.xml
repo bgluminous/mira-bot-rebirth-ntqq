@@ -6,15 +6,44 @@
 
   <groupId>ink.on.central.bot</groupId>
   <artifactId>mira-bot-rebirth-ntqq</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.0-SNAPSHOT</version>
 
-  <properties>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+  <!-- Meta Data -->
+  <name>mira-bot-rebirth-ntqq</name>
+  <description>Mita Bot Rebirth NTQQ For LLOneBot With onebot-11 Protocol</description>
+  <url>https://git.kiiiv.com/Luminous/mira-bot-rebirth-ntqq</url>
 
-  <!-- snapshot repositories -->
+  <!-- Licenses -->
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://www.opensource.org/licenses/mit-license.php</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <!-- SCM info -->
+  <scm>
+    <url>https://git.kiiiv.com/Luminous/mira-bot-rebirth-ntqq</url>
+    <connection>
+
+    </connection>
+    <developerConnection>
+      https://git.kiiiv.com/Luminous/mira-bot-rebirth-ntqq
+    </developerConnection>
+  </scm>
+
+  <!-- Developer Info -->
+  <developers>
+    <developer>
+      <name>Luminous(BGLuminous)</name>
+      <email>i@on.ink</email>
+      <organization>A.P.H</organization>
+      <timezone>UTC/GMT+08:00</timezone>
+    </developer>
+  </developers>
+
+  <!-- ik tools snapshot repositories -->
   <repositories>
     <repository>
       <id>ark-nexus</id>
@@ -26,35 +55,64 @@
     </repository>
   </repositories>
 
+  <!-- Deploy Server Config -->
+  <distributionManagement>
+    <repository>
+      <id>ark-nexus</id>
+      <name>ark-nexus</name>
+      <url>https://nexus.kiiiv.com/repository/maven-private/</url>
+    </repository>
+    <snapshotRepository>
+      <id>ark-nexus</id>
+      <name>ark-nexus</name>
+      <url>https://nexus.kiiiv.com/repository/maven-snapshot/</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <properties>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <dep.version.ik-tools>0.0.8-20231109.070933-2</dep.version.ik-tools>
+    <dep.version.slf4j-api>2.0.12</dep.version.slf4j-api>
+    <dep.version.reflections>0.10.2</dep.version.reflections>
+    <dep.version.jackson-databind>2.16.1</dep.version.jackson-databind>
+    <dep.version.java-websocket>1.5.6</dep.version.java-websocket>
+
+    <plug.version.javadoc>3.6.3</plug.version.javadoc>
+    <plug.version.source>3.3.1</plug.version.source>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>ink.ik.tools</groupId>
       <artifactId>ik-tools</artifactId>
-      <version>0.0.8-20231109.070933-2</version>
+      <version>${dep.version.ik-tools}</version>
     </dependency>
 
     <dependency>
-      <groupId>com.heavenark.infrastructure</groupId>
-      <artifactId>ark-log</artifactId>
-      <version>3.0.2</version>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${dep.version.slf4j-api}</version>
     </dependency>
 
     <dependency>
       <groupId>org.reflections</groupId>
       <artifactId>reflections</artifactId>
-      <version>0.10.2</version>
+      <version>${dep.version.reflections}</version>
     </dependency>
 
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.16.1</version>
+      <version>${dep.version.jackson-databind}</version>
     </dependency>
 
     <dependency>
       <groupId>org.java-websocket</groupId>
       <artifactId>Java-WebSocket</artifactId>
-      <version>1.5.6</version>
+      <version>${dep.version.java-websocket}</version>
     </dependency>
 
     <dependency>
@@ -64,5 +122,45 @@
       <scope>provided</scope>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${plug.version.javadoc}</version>
+        <executions>
+          <execution>
+            <id>prepare-agent</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>attach-javadocs</id>
+            <configuration>
+              <additionalparam>-Xdoclint:none</additionalparam>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>${plug.version.source}</version>
+        <configuration>
+          <attach>true</attach>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

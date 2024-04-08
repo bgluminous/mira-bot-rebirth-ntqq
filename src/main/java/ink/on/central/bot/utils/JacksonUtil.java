@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 /**
@@ -58,6 +60,20 @@ public class JacksonUtil {
    */
   public static <T> T parse(String json, Class<T> typeClass) throws JsonProcessingException {
     return Holder.INSTANCE.objectMapper.readValue(json, typeClass);
+  }
+
+  /**
+   * json字符串转对象
+   *
+   * @param is        输入流
+   * @param typeClass 对象类型
+   *
+   * @return 对象
+   *
+   * @throws IOException io异常
+   */
+  public static <T> T parse(InputStream is, Class<T> typeClass) throws IOException {
+    return Holder.INSTANCE.objectMapper.readValue(is, typeClass);
   }
 
   /**

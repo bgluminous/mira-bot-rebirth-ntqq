@@ -1,7 +1,5 @@
 package ink.on.central.bot;
 
-import com.heavenark.infrastructure.log.LogFactory;
-import com.heavenark.infrastructure.log.Logger;
 import ink.on.central.bot.entity.event.message.GroupMessageEvent;
 import ink.on.central.bot.entity.event.message.PrivateMessageEvent;
 import ink.on.central.bot.entity.event.meta.HeartbeatEvent;
@@ -9,6 +7,7 @@ import ink.on.central.bot.entity.event.meta.LifecycleEvent;
 import ink.on.central.bot.entity.event.notice.*;
 import ink.on.central.bot.entity.event.request.FriendJoinRequestEvent;
 import ink.on.central.bot.entity.event.request.GroupJoinRequestEvent;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,8 +21,9 @@ import java.util.Map;
  * @since 1.0.0
  */
 public class EventEntityMapper {
-  private static final Logger LOGGER = LogFactory.getLogger(EventEntityMapper.class);
+  private static final org.slf4j.Logger log = LoggerFactory.getLogger(EventEntityMapper.class);
 
+  /** 事件与实体映射关系 */
   private static final Map<String, Map<String, Class<?>>> MAPPER = new HashMap<>();
 
   /* 注入官方实现*/
@@ -80,12 +80,13 @@ public class EventEntityMapper {
    * @param subEventType 子事件类型
    * @param eventEntity  事件实体类
    */
+  @SuppressWarnings("unused")
   public static void registerNewEventEntity(
     String eventType, String subEventType, Class<?> eventEntity
   ) {
-    LOGGER.inf(
-      "正在 注册/ 重写 新的事件实体映射 [%s -> %s => %s.class]"
-        .formatted(eventType, subEventType, eventEntity.getSimpleName())
+    log.info(
+      "正在 注册 / 重写 新的事件实体映射 [{} -> {} => {}.class]",
+      eventType, subEventType, eventEntity.getSimpleName()
     );
     MAPPER.get(eventType).put(subEventType, eventEntity);
   }
@@ -98,13 +99,14 @@ public class EventEntityMapper {
    *
    * @return 是否移除成功
    */
+  @SuppressWarnings("unused")
   public static boolean removeEventEntity(String eventType, String subEventType) {
     Map<String, Class<?>> someTypeEventMapper = MAPPER.get(eventType);
-    if (someTypeEventMapper != null) {
-      return someTypeEventMapper.remove(subEventType) != null;
+    if (someTypeEventMapper == null) {
+      log.warn("无法找到主要事件类型: {}", eventType);
+      return false;
     }
-    LOGGER.war("无法找到主要事件类型: %s".formatted(eventType));
-    return false;
+    return someTypeEventMapper.remove(subEventType) != null;
   }
 
 }

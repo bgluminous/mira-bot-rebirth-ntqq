@@ -16,9 +16,9 @@ import java.util.Map;
  * @author BGLuminous
  * @since 1.0.0
  */
-public class EventEntityUtil {
+public class EventUtil {
 
-  private EventEntityUtil() {
+  private EventUtil() {
   }
 
   /**
@@ -35,7 +35,7 @@ public class EventEntityUtil {
     throws MiraBotException, JsonProcessingException {
     Map<String, Object> nodeMap = JacksonUtil.getNodeMap(json);
     if (nodeMap.get("retcode") != null) {
-      return new AnalyzedEvent().setEventType("return").setData(json);
+      return new AnalyzedEvent().setEventType("retcode").setData(json);
     }
     String eventType = nodeMap.get("post_type").toString();
     String subType;
