@@ -39,6 +39,10 @@ public class BotInstance {
   /** 构造函数 */
   public BotInstance() {
     connect = new BotSocketClient(URI.create(config.getUrl()));
+    // 注入 Token
+    if (config.getToken() != null) {
+      connect.addHeader("Authorization", "Bearer %s".formatted(config.getToken()));
+    }
     sender = new SenderUtil(this);
   }
 
