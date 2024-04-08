@@ -64,10 +64,6 @@ public class Constant {
     public static final String GET_GROUP_MEMBER_LIST = "get_group_member_list";
     /** 获取群荣誉信息 */
     public static final String GET_GROUP_HONOR_INFO = "get_group_honor_info";
-    /** 获取 Cookies */
-    public static final String GET_COOKIE = "get_cookies";
-    /** 获取 CSRF Token */
-    public static final String GET_CSRF_TOKEN = "get_csrf_token";
     /** 获取 QQ 相关接口凭证 */
     public static final String GET_CREDENTIAL = "get_credentials";
     /** 获取语音 */
