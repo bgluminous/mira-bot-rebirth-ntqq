@@ -67,7 +67,7 @@ public class ProcessorTemplate<T> {
     throw new MiraBotRuntimeException("请重写 process() 方法或者删除该处理器!");
   }
 
-  private void errorHandler(Exception ex) {
+  public void errorHandler(Exception ex) {
     log.error(ex.getMessage(), ex);
   }
 

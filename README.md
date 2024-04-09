@@ -25,7 +25,8 @@
 
 - [LLOneBot Docker镜像](https://github.com/flyqie/docker-llonebot)
 - [Lagrange.Core (C#)](https://github.com/KonataDev/Lagrange.Core)
-- [Kotlin SDK](https://github.com/disymayufei/OneBot-Kotlin-SDK)
+- [OneBot-Kotlin-SDK(Kotlin SDK)](https://github.com/disymayufei/OneBot-Kotlin-SDK)
+- [Shiro (Java SDK)](https://github.com/MisakaTAT/Shiro)
 
 ## Stargazers over time
 

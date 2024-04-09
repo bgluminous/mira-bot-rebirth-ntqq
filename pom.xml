@@ -6,7 +6,7 @@
 
   <groupId>ink.on.central.bot</groupId>
   <artifactId>mira-bot-rebirth-ntqq</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1-SNAPSHOT</version>
 
   <!-- Meta Data -->
   <name>mira-bot-rebirth-ntqq</name>
@@ -26,7 +26,7 @@
   <scm>
     <url>https://git.kiiiv.com/Luminous/mira-bot-rebirth-ntqq</url>
     <connection>
-
+      https://github.com/bgluminous/mira-bot-rebirth-ntqq
     </connection>
     <developerConnection>
       https://git.kiiiv.com/Luminous/mira-bot-rebirth-ntqq
