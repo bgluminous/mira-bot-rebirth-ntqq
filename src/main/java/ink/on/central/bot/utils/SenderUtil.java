@@ -2,11 +2,13 @@ package ink.on.central.bot.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import ink.ik.tools.toys.IkToySnowflakeSingleton;
-import ink.on.central.bot.BotInstance;
 import ink.on.central.bot.Constant;
 import ink.on.central.bot.entity.SendSocketWrap;
 import ink.on.central.bot.entity.action.*;
 import ink.on.central.bot.entity.message.MessagePart;
+import org.java_websocket.WebSocket;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,16 +24,14 @@ import java.util.Map;
  */
 @SuppressWarnings("unused")
 public class SenderUtil {
-  /** BOT 实例 */
-  private final BotInstance instance;
+  private static final Logger log = LoggerFactory.getLogger(SenderUtil.class);
 
-  /**
-   * 构造函数
-   *
-   * @param instance BOT 实例
-   */
-  public SenderUtil(BotInstance instance) {
-    this.instance = instance;
+  /** 当前事件的连接 */
+  private final WebSocket connect;
+
+  /** 构造函数 */
+  public SenderUtil(WebSocket currentConn) {
+    this.connect = currentConn;
   }
 
   /**
@@ -55,7 +55,9 @@ public class SenderUtil {
    * @throws JsonProcessingException 序列化异常
    */
   private void send(SendSocketWrap wrap) throws JsonProcessingException {
-    instance.getConnect().send(JacksonUtil.toJsonString(wrap));
+    String dataJsonStr = JacksonUtil.toJsonString(wrap);
+    log.debug("发送数据! {}", dataJsonStr);
+    connect.send(dataJsonStr);
   }
 
   /**
@@ -69,7 +71,7 @@ public class SenderUtil {
    */
   public void sendRaw(String action, String paramsJson, Long echo) throws JsonProcessingException {
     SendSocketWrap wrap = createWrap(action, paramsJson, echo);
-    instance.getConnect().send(JacksonUtil.toJsonString(wrap));
+    connect.send(JacksonUtil.toJsonString(wrap));
   }
 
   /**

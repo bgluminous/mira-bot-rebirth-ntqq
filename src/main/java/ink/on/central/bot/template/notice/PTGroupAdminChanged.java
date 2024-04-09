@@ -3,7 +3,6 @@ package ink.on.central.bot.template.notice;
 import ink.on.central.bot.BotInstance;
 import ink.on.central.bot.entity.event.notice.GroupAdminChangedEvent;
 import ink.on.central.bot.template.ProcessorTemplate;
-import ink.on.central.bot.utils.SenderUtil;
 
 /**
  * 群管理员变动事件 处理器模板
@@ -18,8 +17,8 @@ import ink.on.central.bot.utils.SenderUtil;
 @SuppressWarnings("unused")
 public class PTGroupAdminChanged extends ProcessorTemplate<GroupAdminChangedEvent> {
 
-  public PTGroupAdminChanged(BotInstance instance, SenderUtil sender) {
-    super(instance, sender, "notice", "group_admin");
+  public PTGroupAdminChanged(BotInstance instance) {
+    super(instance, "notice", "group_admin");
   }
 
 }

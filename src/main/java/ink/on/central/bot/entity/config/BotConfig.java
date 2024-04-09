@@ -16,6 +16,8 @@ import java.util.List;
 public class BotConfig {
   /** Bot正向Socket地址 */
   private String url;
+  /** 监听端口 */
+  private Integer port;
   /** token */
   private String token;
   /** 是否重连 */

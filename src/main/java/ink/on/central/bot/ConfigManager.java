@@ -51,6 +51,12 @@ public class ConfigManager {
     return Holder.INSTANCE.config;
   }
 
+  public static void check() {
+    if (Holder.INSTANCE.config.getUrl() == null && Holder.INSTANCE.config.getPort() == null) {
+      throw new MiraBotError("配置文件错误! url 和 port 至少需要一个参数");
+    }
+  }
+
   private static class Holder {
     private static final ConfigManager INSTANCE = new ConfigManager();
   }

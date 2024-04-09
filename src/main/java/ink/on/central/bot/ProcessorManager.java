@@ -6,7 +6,7 @@ import ink.on.central.bot.annotation.MiraBotProcessor;
 import ink.on.central.bot.entity.event.AnalyzedEvent;
 import ink.on.central.bot.exception.MiraBotError;
 import ink.on.central.bot.template.ProcessorTemplate;
-import ink.on.central.bot.utils.SenderUtil;
+import org.java_websocket.WebSocket;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,12 +37,12 @@ public class ProcessorManager {
    * @param clz 启动类
    */
   public static void prepare(Class<?> clz) {
-    // 加载事件处理器
+    // 扫描事件处理器
     String rootPackage = clz.getPackageName();
     Holder.INSTANCE.processorClassSet.addAll(
       new Reflections(rootPackage).getTypesAnnotatedWith(MiraBotProcessor.class))
     ;
-    // 加载额外的事件处理器
+    // 扫描额外的事件处理器
     List<String> extraProcessorPackageList = ConfigManager.getConfig().getExtraProcessorPackage();
     if (extraProcessorPackageList != null && !extraProcessorPackageList.isEmpty()) {
       extraProcessorPackageList.forEach(
@@ -63,17 +63,14 @@ public class ProcessorManager {
    * @param botInstance Bot 连接实例
    */
   @SuppressWarnings("rawtypes")
-  public static void registerProcessor(
-    BotInstance botInstance
-  ) {
-    SenderUtil sender = new SenderUtil(botInstance);
+  public static void registerProcessor(BotInstance botInstance) {
     Holder.INSTANCE.processorClassSet.forEach(e -> {
       // 尝试构建事件处理器
       try {
         ProcessorTemplate processor =
           (ProcessorTemplate) new IkToyReflection<>(e)
-            .findConstructor(BotInstance.class, SenderUtil.class)
-            .newInstance(botInstance, sender);
+            .findConstructor(BotInstance.class)
+            .newInstance(botInstance);
         String registerEventTarget = processor.getEventId();
         compareAndInject(registerEventTarget, processor);
       } catch (IkToolsReflectionException ex) {
@@ -111,16 +108,17 @@ public class ProcessorManager {
    *
    * @param event        解析后的事件数据
    * @param receivedTime 事件接收时间
+   * @param currentConn  当前连接
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })
-  public static void pushEvent(AnalyzedEvent event, Long receivedTime) {
+  public static void pushEvent(AnalyzedEvent event, Long receivedTime, WebSocket currentConn) {
     List<ProcessorTemplate> processorList = Holder.INSTANCE.processorMap.get(event.getEventId());
     if (processorList == null || processorList.isEmpty()) {
-      log.warn("没有用于处理 {} 事件的处理器!", event.getEventId());
+      log.warn("接收到 {} 事件但是没有可用的处理器!", event.getEventId());
       return;
     }
     processorList.forEach(
-      e -> e.process(event.getData(), receivedTime)
+      e -> e.entrace(event.getData(), receivedTime, currentConn)
     );
   }
 

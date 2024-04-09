@@ -2,7 +2,6 @@ package ink.on.central.bot.template.notice;
 
 import ink.on.central.bot.BotInstance;
 import ink.on.central.bot.template.ProcessorTemplate;
-import ink.on.central.bot.utils.SenderUtil;
 
 /**
  * 群禁言事件 处理器模板
@@ -17,8 +16,8 @@ import ink.on.central.bot.utils.SenderUtil;
 @SuppressWarnings("unused")
 public class PTGroupMemberBan extends ProcessorTemplate<PTGroupMemberBan> {
 
-  public PTGroupMemberBan(BotInstance instance, SenderUtil sender) {
-    super(instance, sender, "notice", "group_ban");
+  public PTGroupMemberBan(BotInstance instance) {
+    super(instance, "notice", "group_ban");
   }
 
 }

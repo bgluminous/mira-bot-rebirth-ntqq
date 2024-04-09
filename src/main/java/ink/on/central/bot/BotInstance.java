@@ -6,11 +6,15 @@ import ink.on.central.bot.entity.event.AnalyzedEvent;
 import ink.on.central.bot.exception.MiraBotException;
 import ink.on.central.bot.utils.EventUtil;
 import lombok.Getter;
+import org.java_websocket.WebSocket;
 import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.handshake.ServerHandshake;
+import org.java_websocket.server.WebSocketServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.InetSocketAddress;
 import java.net.URI;
 import java.util.Objects;
 
@@ -25,27 +29,39 @@ import java.util.Objects;
 public class BotInstance {
   private static final Logger log = LoggerFactory.getLogger(BotInstance.class);
 
-  /** socket连接 */
+  /** socket 客户端 */
   @Getter
-  private final BotSocketClient connect;
+  private BotSocketClient client = null;
+  /** socket 服务器 */
+  @Getter
+  private BotSocketServer server = null;
 
   /** 配置信息 */
   private final BotConfig config = ConfigManager.getConfig();
 
   /** 构造函数 */
   public BotInstance() {
-    connect = new BotSocketClient(URI.create(config.getUrl()));
-    // 注入 Token
-    if (config.getToken() != null) {
-      connect.addHeader("Authorization", "Bearer %s".formatted(config.getToken()));
+    if (config.getPort() != null) {
+      server = new BotSocketServer(new InetSocketAddress(config.getPort()));
+    }
+    if (config.getUrl() != null) {
+      client = new BotSocketClient(URI.create(config.getUrl()));
+      // 注入 Token
+      if (config.getToken() != null) {
+        client.addHeader("Authorization", "Bearer %s".formatted(config.getToken()));
+      }
     }
   }
 
   /** 启动BOT */
   public void connect() {
-    connect.connect();
+    if (client != null) {
+      client.connect();
+    }
+    if (server != null) {
+      server.start();
+    }
   }
-
 
   /** Bot Socket 客户端 */
   public class BotSocketClient extends WebSocketClient {
@@ -70,7 +86,7 @@ public class BotInstance {
 
     @Override
     public void onMessage(String data) {
-      onEvent(data);
+      onEvent(data, this.getConnection());
     }
 
     @Override
@@ -84,34 +100,6 @@ public class BotInstance {
     }
 
     /**
-     * 处理事件逻辑
-     *
-     * @param data 事件Json
-     */
-    private void onEvent(String data) {
-      Long receivedTime = System.currentTimeMillis();
-      log.trace("接收到事件Json: {}", data);
-      try {
-        AnalyzedEvent analyzedEvent = EventUtil.analyzer(data);
-        if (Objects.equals(analyzedEvent.getEventType(), "retcode")) {
-          // 暂不处理retcode类型
-          log.trace("{}", analyzedEvent);
-          return;
-        }
-        log.trace("解析到事件实体: {}", analyzedEvent);
-        ProcessorManager.pushEvent(analyzedEvent, receivedTime);
-      } catch (JsonProcessingException | MiraBotException ex) {
-        if (ex instanceof MiraBotException) {
-          log.error(ex.getMessage(), ex);
-          return;
-        }
-        log.error(
-          "解析事件Json失败... 错误信息:{}", ex.getMessage().replace("\n", "")
-        );
-      }
-    }
-
-    /**
      * 处理关闭事件,和重连逻辑
      *
      * @param code   返回代码
@@ -120,7 +108,7 @@ public class BotInstance {
      */
     private void processClose(int code, String reason, boolean remote) {
       retriedTimes++;
-      log.warn("连接已关闭! code:{} reason:{} 来源:{}", code, reason, remote ? "远程主机" : "本机");
+      log.warn("连接关闭! code:{} reason:{} 来源:{}", code, reason, remote ? "远程主机" : "本机");
       if (
         Boolean.TRUE.equals(config.getReconnect())
           && retriedTimes <= config.getReconnectTryTimes()
@@ -132,13 +120,91 @@ public class BotInstance {
           Thread.currentThread().interrupt();
           log.error("线程睡眠过程发生错误! 错误信息:{}", ex.getMessage());
         }
-        connect.close();
-        if (!connect.isOpen()) {
-          new Thread(connect::reconnect).start();
+        client.close();
+        if (!client.isOpen()) {
+          new Thread(client::reconnect).start();
         }
       }
     }
 
+  }
+
+  /** Bot Socket Server */
+  public class BotSocketServer extends WebSocketServer {
+
+    public BotSocketServer(InetSocketAddress address) {
+      super(address);
+    }
+
+    @Override
+    public void onOpen(WebSocket conn, ClientHandshake handshake) {
+      String botId = handshake.getFieldValue("X-Self-ID");
+      log.info("接收到Bot {}连接 ~~", botId);
+      // 如果没有加密Token则直接结束open过程
+      if (config.getToken() == null) {
+        return;
+      }
+      // 验证Token
+      String token = handshake.getFieldValue("Authorization");
+      if (token == null || !token.equals("Bearer %s".formatted(config.getToken()))) {
+        conn.close(-1, "Token Error");
+      }
+    }
+
+    @Override
+    public void onClose(WebSocket conn, int code, String reason, boolean remote) {
+      log.warn(
+        "连接 {} 关闭~ code:{} reason:{} 来源:{}",
+        conn.getRemoteSocketAddress(), code, reason, remote ? "远程主机" : "本机"
+      );
+    }
+
+    @Override
+    public void onMessage(WebSocket conn, String message) {
+      onEvent(message, conn);
+    }
+
+    @Override
+    public void onError(WebSocket conn, Exception ex) {
+      log.warn(
+        "Socket服务器处理过程出错! 来源:{} 错误信息:{}",
+        conn.getResourceDescriptor(), ex.getMessage()
+      );
+    }
+
+    @Override
+    public void onStart() {
+      log.info("开始监听端口 {}~", config.getPort());
+    }
+  }
+
+  /**
+   * 处理事件逻辑
+   *
+   * @param data        事件Json
+   * @param currentConn 当前连接
+   */
+  private void onEvent(String data, WebSocket currentConn) {
+    Long receivedTime = System.currentTimeMillis();
+    log.debug("接收到 {} 事件Json: {}", currentConn.getResourceDescriptor(), data);
+    try {
+      AnalyzedEvent analyzedEvent = EventUtil.analyzer(data);
+      if (Objects.equals(analyzedEvent.getEventType(), "retcode")) {
+        // 暂不处理retcode类型
+        log.trace("{}", analyzedEvent);
+        return;
+      }
+      log.debug("解析到事件实体: {}", analyzedEvent);
+      ProcessorManager.pushEvent(analyzedEvent, receivedTime, currentConn);
+    } catch (JsonProcessingException | MiraBotException ex) {
+      if (ex instanceof MiraBotException) {
+        log.error(ex.getMessage(), ex);
+        return;
+      }
+      log.error(
+        "解析事件Json失败... 错误信息:{}", ex.getMessage().replace("\n", "")
+      );
+    }
   }
 
 }
