@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * 事件实体分析工具
  * <p>
- * Create Time: 2024-03-29 Last Update:
+ * Create Time: 2024-03-29 Last Update: 2024-04-12
  *
  * @author BGLuminous
  * @since 1.0.0
@@ -33,8 +33,12 @@ public class EventUtil {
   public static AnalyzedEvent analyzer(String json)
     throws MiraBotException, JsonProcessingException {
     Map<String, Object> nodeMap = JacksonUtil.getNodeMap(json);
+    // 处理API调用返回信息
     if (nodeMap.get("retcode") != null) {
-      return new AnalyzedEvent().setEventType("retcode").setData(json);
+      return new AnalyzedEvent()
+        .setEventType("retcode")
+        .setData(JacksonUtil.toJsonString(nodeMap.get("data")))
+        .setResponseId(nodeMap.get("echo").toString());
     }
     String eventType = nodeMap.get("post_type").toString();
     String subType;

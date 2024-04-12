@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 事件处理器模板
  * <p>
- * Create Time: 2024-04-07 Last Update:
+ * Create Time: 2024-04-07 Last Update: 2024-04-12
  *
  * @param <T> 事件信息实体类
  *
@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  * @since 1.0.0
  */
 public class ProcessorTemplate<T> {
-  private final Logger log;
+  protected final Logger log;
 
   /** 事件ID = post_type + 对应的子类型 */
   @Getter

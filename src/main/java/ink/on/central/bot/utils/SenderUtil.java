@@ -12,12 +12,11 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 发送工具类
  * <p>
- * Create Time: 2024-04-08 Last Update:
+ * Create Time: 2024-04-08 Last Update: 2024-04-12
  *
  * @author BGLuminous
  * @since 1.0.0
@@ -77,6 +76,49 @@ public class SenderUtil {
   /**
    * 发送私聊消息
    *
+   * @param qqId          目标QQ
+   * @param cqCodeMessage CQ码消息
+   *
+   * @return 请求ID
+   *
+   * @throws JsonProcessingException 序列化异常
+   */
+  public Long sendPrivateMessage(Long qqId, String cqCodeMessage) throws JsonProcessingException {
+    Long id = IkToySnowflakeSingleton.getInstance().nextId();
+    SendMessage message = new SendMessage()
+      .setMessageType(Constant.PRIVATE)
+      .setUserId(qqId)
+      .setMessage(cqCodeMessage)
+      .setAutoEscape(true);
+    send(createWrap(Constant.API.SEND_MSG, message, id));
+    return id;
+  }
+
+  /**
+   * 发送私聊消息
+   *
+   * @param qqId          目标QQ
+   * @param singleMessage 单个消息
+   *
+   * @return 请求ID
+   *
+   * @throws JsonProcessingException 序列化异常
+   */
+  public Long sendPrivateMessage(Long qqId, MessagePart<?> singleMessage)
+    throws JsonProcessingException {
+    Long id = IkToySnowflakeSingleton.getInstance().nextId();
+    SendMessage message = new SendMessage()
+      .setMessageType(Constant.PRIVATE)
+      .setUserId(qqId)
+      .setMessage(singleMessage)
+      .setAutoEscape(false);
+    send(createWrap(Constant.API.SEND_MSG, message, id));
+    return id;
+  }
+
+  /**
+   * 发送私聊消息
+   *
    * @param qqId            目标QQ
    * @param messagePartList 消息片列表
    *
@@ -99,42 +141,56 @@ public class SenderUtil {
   /**
    * 发送私聊消息
    *
-   * @param qqId          目标QQ
-   * @param singleMessage 单个消息
+   * @param qqId    目标QQ
+   * @param builder 消息构建器
    *
    * @return 请求ID
    *
    * @throws JsonProcessingException 序列化异常
    */
-  public Long sendPrivateMessage(Long qqId, Map<String, String> singleMessage)
-    throws JsonProcessingException {
-    Long id = IkToySnowflakeSingleton.getInstance().nextId();
-    SendMessage message = new SendMessage()
-      .setMessageType(Constant.PRIVATE)
-      .setUserId(qqId)
-      .setMessage(singleMessage)
-      .setAutoEscape(false);
-    send(createWrap(Constant.API.SEND_MSG, message, id));
-    return id;
+  public Long sendPrivateMessage(Long qqId, MessageBuilder builder) throws JsonProcessingException {
+    return sendPrivateMessage(qqId, builder.getMessagePartList());
   }
 
   /**
-   * 发送私聊消息
+   * 发送群聊消息
    *
-   * @param qqId          目标QQ
+   * @param groupId       目标群
    * @param cqCodeMessage CQ码消息
    *
    * @return 请求ID
    *
    * @throws JsonProcessingException 序列化异常
    */
-  public Long sendPrivateMessage(Long qqId, String cqCodeMessage) throws JsonProcessingException {
+  public Long sendGroupMessage(Long groupId, String cqCodeMessage) throws JsonProcessingException {
     Long id = IkToySnowflakeSingleton.getInstance().nextId();
     SendMessage message = new SendMessage()
-      .setMessageType(Constant.PRIVATE)
-      .setUserId(qqId)
+      .setMessageType(Constant.GROUP)
+      .setGroupId(groupId)
       .setMessage(cqCodeMessage)
       .setAutoEscape(true);
+    send(createWrap(Constant.API.SEND_MSG, message, id));
+    return id;
+  }
+
+  /**
+   * 发送群聊消息
+   *
+   * @param groupId       目标群
+   * @param singleMessage 单个消息
+   *
+   * @return 请求ID
+   *
+   * @throws JsonProcessingException 序列化异常
+   */
+  public Long sendGroupMessage(Long groupId, MessagePart<?> singleMessage)
+    throws JsonProcessingException {
+    Long id = IkToySnowflakeSingleton.getInstance().nextId();
+    SendMessage message = new SendMessage()
+      .setMessageType(Constant.GROUP)
+      .setGroupId(groupId)
+      .setMessage(singleMessage)
+      .setAutoEscape(false);
     send(createWrap(Constant.API.SEND_MSG, message, id));
     return id;
   }
@@ -164,45 +220,17 @@ public class SenderUtil {
   /**
    * 发送群聊消息
    *
-   * @param groupId       目标群
-   * @param singleMessage 单个消息
+   * @param groupId 目标群
+   * @param builder 消息构建器
    *
    * @return 请求ID
    *
    * @throws JsonProcessingException 序列化异常
    */
-  public Long sendGroupMessage(Long groupId, Map<String, String> singleMessage)
-    throws JsonProcessingException {
-    Long id = IkToySnowflakeSingleton.getInstance().nextId();
-    SendMessage message = new SendMessage()
-      .setMessageType(Constant.GROUP)
-      .setGroupId(groupId)
-      .setMessage(singleMessage)
-      .setAutoEscape(false);
-    send(createWrap(Constant.API.SEND_MSG, message, id));
-    return id;
+  public Long sendGroupMessage(Long groupId, MessageBuilder builder) throws JsonProcessingException {
+    return sendGroupMessage(groupId, builder.getMessagePartList());
   }
 
-  /**
-   * 发送群聊消息
-   *
-   * @param groupId       目标群
-   * @param cqCodeMessage CQ码消息
-   *
-   * @return 请求ID
-   *
-   * @throws JsonProcessingException 序列化异常
-   */
-  public Long sendGroupMessage(Long groupId, String cqCodeMessage) throws JsonProcessingException {
-    Long id = IkToySnowflakeSingleton.getInstance().nextId();
-    SendMessage message = new SendMessage()
-      .setMessageType(Constant.GROUP)
-      .setGroupId(groupId)
-      .setMessage(cqCodeMessage)
-      .setAutoEscape(true);
-    send(createWrap(Constant.API.SEND_MSG, message, id));
-    return id;
-  }
 
   /**
    * 撤回消息

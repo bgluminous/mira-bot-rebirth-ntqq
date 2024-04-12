@@ -7,9 +7,9 @@ import java.util.regex.Pattern;
 /**
  * 消息快速验证工具
  * <p>
- * Create Time: 2024-04-01 Last Update:
+ * Create Time: 2024-04-01 Last Update: 2024-04-12
  *
- * @version 1.0.0
+ * @author BGLuminous
  * @since 1.0.0
  **/
 @SuppressWarnings("unused")
@@ -53,9 +53,7 @@ public class MessageCheckUtil {
    *
    * @return --
    */
-  public static boolean isPureTextMessageRegex(
-    List<Map<String, Object>> messageList, String regex
-  ) {
+  public static boolean isPureTextMessageRegex(List<Map<String, Object>> messageList, String regex) {
     if (!isPureTextMessage(messageList)) {
       return false;
     }
@@ -89,11 +87,12 @@ public class MessageCheckUtil {
    *
    * @return 过滤后的纯文本信息
    */
+  @SuppressWarnings("unchecked")
   public static String getPureTextMessage(List<Map<String, Object>> messageList) {
     StringBuilder sb = new StringBuilder();
     for (Map<String, Object> stringObjectMap : messageList) {
       if (stringObjectMap.get("type").equals("text")) {
-        sb.append(stringObjectMap.get("data"));
+        sb.append(((Map<String, String>) stringObjectMap.get("data")).get("text"));
       }
     }
     return sb.toString();

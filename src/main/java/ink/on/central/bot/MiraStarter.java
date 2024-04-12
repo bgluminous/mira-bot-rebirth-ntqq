@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 启动器
  * <p>
- * Create Time: 2024-04-08 Last Update:
+ * Create Time: 2024-04-08 Last Update: 2024-04-12
  *
  * @author BGLuminous
  * @since 1.0.0
@@ -33,6 +33,10 @@ public class MiraStarter {
     BotInstance botInstance = new BotInstance();
     // 注册事件处理器
     ProcessorManager.registerProcessor(botInstance);
+    // 初始化线程池
+    ThreadPoolManger.prepare();
+    // 初始化API返回管理器清理线程
+    ResponseManager.prepare();
     // 启动WS连接
     botInstance.connect();
   }

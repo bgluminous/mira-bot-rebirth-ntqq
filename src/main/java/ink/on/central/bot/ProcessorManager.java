@@ -16,7 +16,7 @@ import java.util.*;
 /**
  * 事件处理器管理器
  * <p>
- * Create Time: 2024-04-08 Last Update:
+ * Create Time: 2024-04-08 Last Update: 2024-04-12
  *
  * @author BGLuminous
  * @since 1.0.0
@@ -118,7 +118,7 @@ public class ProcessorManager {
       return;
     }
     processorList.forEach(
-      e -> e.entrace(event.getData(), receivedTime, currentConn)
+      e -> ThreadPoolManger.push(() -> e.entrace(event.getData(), receivedTime, currentConn))
     );
   }
 

@@ -28,9 +28,9 @@ public class GroupMessageRecallEvent {
 
   /** 群号 */
   private Long groupId;
-  /** 加入者 QQ 号 */
+  /** 消息发送者 QQ 号 */
   private Long userId;
-  /** 操作者 QQ 号（如果是主动退群，则和 user_id 相同） */
+  /** 操作者 QQ 号 */
   private Long operatorId;
   /** 被撤回的消息 ID */
   private Long messageId;

@@ -3,11 +3,12 @@ package ink.on.central.bot.entity.config;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Bot配置文件
  * <p>
- * Create Time: 2024-04-01 Last Update:
+ * Create Time: 2024-04-01 Last Update: 2024-04-12
  *
  * @author BGLuminous
  * @since 1.0.0
@@ -30,6 +31,8 @@ public class BotConfig {
   private List<String> extraProcessorPackage;
   /** 严格模式 */
   private Boolean strict;
+
+  private Map<String, String> custom;
 
   public BotConfig() {
     // 写入默认配置

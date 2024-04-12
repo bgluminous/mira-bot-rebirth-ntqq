@@ -21,7 +21,7 @@ import java.util.Objects;
 /**
  * BOT连接实例
  * <p>
- * Create Time: 2024-04-07 Last Update:
+ * Create Time: 2024-04-07 Last Update: 2024-04-12
  *
  * @author BGLuminous
  * @since 1.0.0
@@ -109,6 +109,7 @@ public class BotInstance {
     private void processClose(int code, String reason, boolean remote) {
       retriedTimes++;
       log.warn("连接关闭! code:{} reason:{} 来源:{}", code, reason, remote ? "远程主机" : "本机");
+      ThreadPoolManger.forceCleanAll();
       if (
         Boolean.TRUE.equals(config.getReconnect())
           && retriedTimes <= config.getReconnectTryTimes()
@@ -185,26 +186,30 @@ public class BotInstance {
    * @param currentConn 当前连接
    */
   private void onEvent(String data, WebSocket currentConn) {
-    Long receivedTime = System.currentTimeMillis();
-    log.debug("接收到 {} 事件Json: {}", currentConn.getResourceDescriptor(), data);
-    try {
-      AnalyzedEvent analyzedEvent = EventUtil.analyzer(data);
-      if (Objects.equals(analyzedEvent.getEventType(), "retcode")) {
-        // 暂不处理retcode类型
-        log.trace("{}", analyzedEvent);
-        return;
+    ThreadPoolManger.push(() -> {
+      Long receivedTime = System.currentTimeMillis();
+      log.debug("接收到 {} 事件Json: {}", currentConn.getResourceDescriptor(), data);
+      try {
+        AnalyzedEvent analyzedEvent = EventUtil.analyzer(data);
+        // 处理API调用返回信息
+        if (Objects.equals(analyzedEvent.getEventType(), "retcode")) {
+          ResponseManager.pushResponse(analyzedEvent.getResponseId(), analyzedEvent.getData());
+          log.trace("解析到API返回实体: {}", analyzedEvent);
+          return;
+        }
+        // 处理接收事件信息
+        log.debug("解析到事件实体: {}", analyzedEvent);
+        ProcessorManager.pushEvent(analyzedEvent, receivedTime, currentConn);
+      } catch (JsonProcessingException | MiraBotException ex) {
+        if (ex instanceof MiraBotException) {
+          log.error(ex.getMessage(), ex);
+          return;
+        }
+        log.error(
+          "解析事件Json失败... 错误信息:{}", ex.getMessage().replace("\n", "")
+        );
       }
-      log.debug("解析到事件实体: {}", analyzedEvent);
-      ProcessorManager.pushEvent(analyzedEvent, receivedTime, currentConn);
-    } catch (JsonProcessingException | MiraBotException ex) {
-      if (ex instanceof MiraBotException) {
-        log.error(ex.getMessage(), ex);
-        return;
-      }
-      log.error(
-        "解析事件Json失败... 错误信息:{}", ex.getMessage().replace("\n", "")
-      );
-    }
+    });
   }
 
 }

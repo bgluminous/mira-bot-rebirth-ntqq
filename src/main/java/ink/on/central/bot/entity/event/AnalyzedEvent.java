@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 /**
  * 接受到的事件经过首次分析后用于暂存的实体类
  * <br>
- * Create Time: 2024-04-07 Last Update:
+ * Create Time: 2024-04-07 Last Update: 2024-04-12
  *
  * @author BGLuminous
  * @since 1.0.0
@@ -20,6 +20,8 @@ public class AnalyzedEvent {
   private String subType;
   /** 事件信息载体（已经转换为实体类） */
   private Object data;
+  /** 返回信息ID 只有调用 API 返回事件会有这个值 */
+  private String responseId;
 
   public String getEventId() {
     return eventType + subType;
