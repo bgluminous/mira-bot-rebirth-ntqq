@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Data
 public class MessagePartVideo {
-  /** 语音文件名 */
+  /** 视频文件名 */
   private String file;
   /** 视频 URL */
   private String url;

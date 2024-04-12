@@ -40,6 +40,13 @@ public class MessageConvertUtil {
     return builder.getMessagePartList();
   }
 
+  /**
+   * 将消息对象转换为标准的消息片段
+   *
+   * @param messagePart 消息对象
+   *
+   * @return 消息片段
+   */
   @SuppressWarnings("all")
   public static MessagePart<?> fromMessage(Map<String, Object> messageMap) {
     Object type = messageMap.get("type");
@@ -47,7 +54,7 @@ public class MessageConvertUtil {
     if (type.equals("text")) {
       return MessageBuilder.text(dataMap.get("text"));
     }
-    if (messageMap.get("tpye").equals("face")) {
+    if (type.equals("face")) {
       return MessageBuilder.face(dataMap.get("id"));
     }
     if (type.equals("at")) {
