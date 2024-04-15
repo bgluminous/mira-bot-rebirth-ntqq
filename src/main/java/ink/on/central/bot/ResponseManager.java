@@ -23,14 +23,24 @@ public class ResponseManager {
   /** 缓存API返回事件 */
   private final Map<String, ResponseManageWrap> resposeBufMap = new HashMap<>();
 
+  private Thread cleanThread;
+
   /** 初始化 */
   @SuppressWarnings("all")
   public static void prepare() {
     // 新建一个线程专门用于删除过期没有使用的返回事件
-    ThreadPoolManger.push(() -> {
+    Holder.INSTANCE.cleanThread = new Thread(() -> {
       log.info("API调用返回管理器垃圾回收开始工作~");
       while (true) {
-        sleep(5000L);
+        try {
+          Thread.sleep(5000L);
+        } catch (Exception ex) {
+          log.error(
+            "垃圾回收线程睡眠过程发生错误! 错误信息:{} (如果是断开连接导致的错误请忽略, 垃圾回收线程会自动重启)",
+            ex.getMessage()
+          );
+          return;
+        }
         Iterator<String> keyIterator = Holder.INSTANCE.resposeBufMap.keySet().iterator();
         while (keyIterator.hasNext()) {
           String key = keyIterator.next();
@@ -42,6 +52,11 @@ public class ResponseManager {
         }
       }
     });
+    ThreadPoolManger.push(Holder.INSTANCE.cleanThread);
+  }
+
+  public static void shutdown() {
+    Holder.INSTANCE.cleanThread.interrupt();
   }
 
   /**
@@ -52,6 +67,7 @@ public class ResponseManager {
    *
    * @return 返回数据
    */
+  @SuppressWarnings("all")
   public static String asyncGetResponse(String requestId, Long timeout) {
     long endTime = System.currentTimeMillis() + timeout;
     while (System.currentTimeMillis() < endTime) {
@@ -60,7 +76,13 @@ public class ResponseManager {
         Holder.INSTANCE.resposeBufMap.remove(requestId);
         return dataJson;
       }
-      sleep(500L);
+      try {
+        Thread.sleep(timeout);
+      } catch (Exception ex) {
+        log.error("线程睡眠过程发生错误! 错误信息:{}", ex.getMessage());
+        Thread.currentThread().interrupt();
+        return null;
+      }
     }
     log.warn("未找到请求 {} 的返回数据, 可以尝试增加接收时间或者检查代码逻辑错误!", requestId);
     return null;
@@ -98,20 +120,6 @@ public class ResponseManager {
    */
   public static String asyncGetResponse(Long responseId) {
     return asyncGetResponse(String.valueOf(responseId));
-  }
-
-  /**
-   * 线程睡眠
-   *
-   * @param time 睡眠时间
-   */
-  private static void sleep(Long time) {
-    try {
-      Thread.sleep(time);
-    } catch (InterruptedException ex) {
-      Thread.currentThread().interrupt();
-      log.error("线程睡眠过程发生错误! 错误信息:{}", ex.getMessage());
-    }
   }
 
   /**

@@ -100,7 +100,7 @@ public class BotInstance {
     }
 
     /**
-     * 处理关闭事件,和重连逻辑
+     * 处理关闭事件和重连逻辑
      *
      * @param code   返回代码
      * @param reason 关闭原因
@@ -109,7 +109,10 @@ public class BotInstance {
     private void processClose(int code, String reason, boolean remote) {
       retriedTimes++;
       log.warn("连接关闭! code:{} reason:{} 来源:{}", code, reason, remote ? "远程主机" : "本机");
-      ThreadPoolManger.forceCleanAll();
+      // 关闭所有正在处理中的事件
+      ThreadPoolManger.cleanAndReinit();
+      // 重新初始化 API调用返回管理器的清理线程
+      ResponseManager.prepare();
       if (
         Boolean.TRUE.equals(config.getReconnect())
           && retriedTimes <= config.getReconnectTryTimes()
@@ -118,8 +121,8 @@ public class BotInstance {
         try {
           Thread.sleep(config.getReconnectDelayTime() * 1000L);
         } catch (InterruptedException ex) {
-          Thread.currentThread().interrupt();
           log.error("线程睡眠过程发生错误! 错误信息:{}", ex.getMessage());
+          Thread.currentThread().interrupt();
         }
         client.close();
         if (!client.isOpen()) {

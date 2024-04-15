@@ -43,7 +43,7 @@ public class MessageConvertUtil {
   /**
    * 将消息对象转换为标准的消息片段
    *
-   * @param messagePart 消息对象
+   * @param messageMap 消息对象
    *
    * @return 消息片段
    */

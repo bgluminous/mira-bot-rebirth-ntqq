@@ -24,6 +24,7 @@ public class ThreadPoolManger {
 
   /** 线程池初始化 */
   private void init() {
+    log.info("开始初始化线程池管理器...");
     this.executor = new ThreadPoolExecutor(
       5,
       10,
@@ -51,7 +52,7 @@ public class ThreadPoolManger {
   /**
    * 强制清理线程池中的任务并重启线程池
    */
-  public static void forceCleanAll() {
+  public static void cleanAndReinit() {
     log.warn("开始清理线程池中未结束的任务...");
     List<Runnable> notStartedTasks = Holder.INSTANCE.executor.shutdownNow();
     log.info("已取消等待执行的任务数量: {}", notStartedTasks.size());
@@ -63,9 +64,8 @@ public class ThreadPoolManger {
       Thread.currentThread().interrupt();
       throw new MiraBotError("线程池等待终止时发生异常!!! 错误信息: %s".formatted(ex.getMessage()));
     }
+    log.info("线程池清洗完成!");
     Holder.INSTANCE.init();
-    // 重新初始化 API调用返回管理器的清理线程
-    ResponseManager.prepare();
   }
 
   /** 静态内部类 */
