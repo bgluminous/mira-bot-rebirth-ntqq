@@ -77,7 +77,7 @@ public class ResponseManager {
         return dataJson;
       }
       try {
-        Thread.sleep(timeout);
+        Thread.sleep(500L);
       } catch (Exception ex) {
         log.error("线程睡眠过程发生错误! 错误信息:{}", ex.getMessage());
         Thread.currentThread().interrupt();
