@@ -28,7 +28,7 @@ public class GroupMemberIncreaseEvent {
 
 
   /** 事件子类型，分别表示管理员已同意入群、管理员邀请入群 */
-  private String subTypes;
+  private String subType;
   /** 群号 */
   private Long groupId;
   /** 操作者 QQ 号（如果是主动退群，则和 user_id 相同） */

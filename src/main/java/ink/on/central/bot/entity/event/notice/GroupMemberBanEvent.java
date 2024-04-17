@@ -27,7 +27,7 @@ public class GroupMemberBanEvent {
   private Long selfId;
 
   /** 事件子类型，分别表示禁言、解除禁言 */
-  private String subTypes;
+  private String subType;
   /** 群号 */
   private Long groupId;
   /** 操作者 QQ 号（如果是主动退群，则和 user_id 相同） */

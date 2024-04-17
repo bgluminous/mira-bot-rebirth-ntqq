@@ -27,8 +27,7 @@ public class GroupAdminChangedEvent {
   private Long selfId;
 
   /** 事件子类型，分别表示设置和取消管理员 */
-  private String
-    subTypes;
+  private String subType;
   /** 群号 */
   private Long groupId;
   /** 管理员 QQ 号 */
