@@ -21,7 +21,7 @@ import java.util.Objects;
 /**
  * BOT连接实例
  * <p>
- * Create Time: 2024-04-07 Last Update: 2024-04-12
+ * Create Time: 2024-04-07 Last Update: 2024-04-18
  *
  * @author BGLuminous
  * @since 1.0.0
@@ -79,8 +79,9 @@ public class BotInstance {
     }
 
     @Override
-    public void onOpen(ServerHandshake handshakeData) {
-      log.info("连接成功~~");
+    public void onOpen(ServerHandshake handshake) {
+      log.info("连接到到Bot连接 ~");
+      BotInstanceManager.regSocket("default", this);
       retriedTimes = 0;
     }
 
@@ -107,6 +108,8 @@ public class BotInstance {
      * @param remote 是否是远程关闭
      */
     private void processClose(int code, String reason, boolean remote) {
+      //从 socket 管理器中删除实例
+      BotInstanceManager.remove("default");
       retriedTimes++;
       log.warn("连接关闭! code:{} reason:{} 来源:{}", code, reason, remote ? "远程主机" : "本机");
       // 关闭所有正在处理中的事件
@@ -144,6 +147,7 @@ public class BotInstance {
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
       String botId = handshake.getFieldValue("X-Self-ID");
       log.info("接收到Bot {}连接 ~~", botId);
+      conn.setAttachment(botId);
       // 如果没有加密Token则直接结束open过程
       if (config.getToken() == null) {
         return;
@@ -157,6 +161,7 @@ public class BotInstance {
 
     @Override
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
+      BotInstanceManager.remove(conn.getAttachment());
       log.warn(
         "连接 {} 关闭~ code:{} reason:{} 来源:{}",
         conn.getRemoteSocketAddress(), code, reason, remote ? "远程主机" : "本机"
