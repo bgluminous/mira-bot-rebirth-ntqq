@@ -2,7 +2,7 @@ package ink.on.central.bot.template.notice;
 
 import ink.on.central.bot.BotInstance;
 import ink.on.central.bot.entity.event.notice.GroupMemberIncreaseEvent;
-import ink.on.central.bot.template.ProcessorTemplate;
+import ink.on.central.bot.template.ListenerTemplate;
 
 /**
  * 群成员增加事件 处理器模板
@@ -15,9 +15,9 @@ import ink.on.central.bot.template.ProcessorTemplate;
  * @since 1.0.0
  */
 @SuppressWarnings("unused")
-public class PTGroupMemberIncrease extends ProcessorTemplate<GroupMemberIncreaseEvent> {
+public class LTGroupMemberIncrease extends ListenerTemplate<GroupMemberIncreaseEvent> {
 
-  public PTGroupMemberIncrease(BotInstance instance) {
+  public LTGroupMemberIncrease(BotInstance instance) {
     super(instance, "notice", "group_increase");
   }
 

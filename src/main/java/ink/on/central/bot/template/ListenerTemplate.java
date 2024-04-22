@@ -11,14 +11,14 @@ import org.slf4j.LoggerFactory;
 /**
  * 事件处理器模板
  * <p>
- * Create Time: 2024-04-07 Last Update: 2024-04-12
+ * Create Time: 2024-04-07 Last Update: 2024-04-22
  *
  * @param <T> 事件信息实体类
  *
  * @author BGLuminous
- * @since 1.0.0
+ * @since 1.4.0
  */
-public class ProcessorTemplate<T> {
+public class ListenerTemplate<T> {
   protected final Logger log;
 
   /** 事件ID = post_type + 对应的子类型 */
@@ -37,7 +37,7 @@ public class ProcessorTemplate<T> {
    * @param targetEvent   作用事件类型
    * @param targetSubType 作用事件子类型
    */
-  public ProcessorTemplate(
+  public ListenerTemplate(
     BotInstance instance, String targetEvent, String targetSubType
   ) {
     this.instance = instance;

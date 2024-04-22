@@ -196,7 +196,7 @@ public class BotInstance {
   private void onEvent(String data, WebSocket currentConn) {
     ThreadPoolManger.push(() -> {
       Long receivedTime = System.currentTimeMillis();
-      log.debug("接收到 {} 事件Json: {}", currentConn.getResourceDescriptor(), data);
+      log.debug("接收到事件Json: {}", data);
       try {
         AnalyzedEvent analyzedEvent = EventUtil.analyzer(data);
         // 处理API调用返回信息
@@ -207,7 +207,7 @@ public class BotInstance {
         }
         // 处理接收事件信息
         log.debug("解析到事件实体: {}", analyzedEvent);
-        ProcessorManager.pushEvent(analyzedEvent, receivedTime, currentConn);
+        ListenerManager.pushEvent(analyzedEvent, receivedTime, currentConn);
       } catch (JsonProcessingException | MiraBotException ex) {
         if (ex instanceof MiraBotException) {
           log.error(ex.getMessage(), ex);

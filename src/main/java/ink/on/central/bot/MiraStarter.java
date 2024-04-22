@@ -27,12 +27,12 @@ public class MiraStarter {
   public static void run(Class<?> clz) {
     // 加载配置管理器并检查配置文件
     ConfigManager.check();
-    // 检查并加载事件处理器列表
-    ProcessorManager.prepare(clz);
+    // 检查并加载事件监听器列表
+    ListenerManager.prepare(clz);
     // 初始化Bot
     BotInstance botInstance = new BotInstance();
     // 注册事件处理器
-    ProcessorManager.registerProcessor(botInstance);
+    ListenerManager.registerListener(botInstance);
     // 初始化线程池
     ThreadPoolManger.prepare();
     // 初始化API返回管理器清理线程

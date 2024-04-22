@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * jackson工具类
  * <p>
- * Create Time: 2024-03-29 Last Update:
+ * Create Time: 2024-03-29 Last Update: 2024-04-22
  *
  * @author BGLuminous
  * @since 1.0.0
@@ -74,6 +74,20 @@ public class JacksonUtil {
    */
   public static <T> T parse(InputStream is, Class<T> typeClass) throws IOException {
     return Holder.INSTANCE.objectMapper.readValue(is, typeClass);
+  }
+
+  /**
+   * json字符串转对象
+   *
+   * @param json          json字符串
+   * @param typeReference 对象类型
+   *
+   * @return 对象
+   *
+   * @throws JsonProcessingException json解析异常
+   */
+  public static <T> T parse(String json, TypeReference<T> typeReference) throws JsonProcessingException {
+    return Holder.INSTANCE.objectMapper.readValue(json, typeReference);
   }
 
   /**

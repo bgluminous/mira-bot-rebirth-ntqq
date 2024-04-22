@@ -27,8 +27,8 @@ public class BotConfig {
   private Integer reconnectDelayTime;
   /** 重连尝试次数 */
   private Integer reconnectTryTimes;
-  /** extra processor package 路径加载列表 */
-  private List<String> extraProcessorPackage;
+  /** extra listener package 路径加载列表 */
+  private List<String> extraListenerPackage;
   /** 严格模式 */
   private Boolean strict;
 

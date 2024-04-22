@@ -2,7 +2,7 @@ package ink.on.central.bot.template.notice;
 
 import ink.on.central.bot.BotInstance;
 import ink.on.central.bot.entity.event.notice.GroupNotifyEvent;
-import ink.on.central.bot.template.ProcessorTemplate;
+import ink.on.central.bot.template.ListenerTemplate;
 
 /**
  * 群内戳一戳事件 / 群红包运气王 / 群成员荣誉变更 处理器模板
@@ -19,9 +19,9 @@ import ink.on.central.bot.template.ProcessorTemplate;
  * @since 1.0.0
  */
 @SuppressWarnings("unused")
-public class PTGroupNotify extends ProcessorTemplate<GroupNotifyEvent> {
+public class LTGroupNotify extends ListenerTemplate<GroupNotifyEvent> {
 
-  public PTGroupNotify(BotInstance instance) {
+  public LTGroupNotify(BotInstance instance) {
     super(instance, "notice", "notify");
   }
 

@@ -2,7 +2,7 @@ package ink.on.central.bot.template.meta;
 
 import ink.on.central.bot.BotInstance;
 import ink.on.central.bot.entity.event.meta.LifecycleEvent;
-import ink.on.central.bot.template.ProcessorTemplate;
+import ink.on.central.bot.template.ListenerTemplate;
 
 /**
  * 生命周期事件 处理器模板
@@ -15,9 +15,9 @@ import ink.on.central.bot.template.ProcessorTemplate;
  * @since 1.0.0
  */
 @SuppressWarnings("unused")
-public class PTLifecycle extends ProcessorTemplate<LifecycleEvent> {
+public class LTLifecycle extends ListenerTemplate<LifecycleEvent> {
 
-  public PTLifecycle(BotInstance instance) {
+  public LTLifecycle(BotInstance instance) {
     super(instance, "meta_event", "lifecycle");
   }
 

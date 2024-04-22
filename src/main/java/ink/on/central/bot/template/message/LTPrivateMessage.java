@@ -2,7 +2,7 @@ package ink.on.central.bot.template.message;
 
 import ink.on.central.bot.BotInstance;
 import ink.on.central.bot.entity.event.message.PrivateMessageEvent;
-import ink.on.central.bot.template.ProcessorTemplate;
+import ink.on.central.bot.template.ListenerTemplate;
 
 /**
  * 私信 处理器模板
@@ -15,9 +15,9 @@ import ink.on.central.bot.template.ProcessorTemplate;
  * @since 1.0.0
  */
 @SuppressWarnings("unused")
-public class PTPrivateMessage extends ProcessorTemplate<PrivateMessageEvent> {
+public class LTPrivateMessage extends ListenerTemplate<PrivateMessageEvent> {
 
-  public PTPrivateMessage(BotInstance instance) {
+  public LTPrivateMessage(BotInstance instance) {
     super(instance, "message", "private");
   }
 
