@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Bot配置文件
  * <p>
- * Create Time: 2024-04-01 Last Update: 2024-04-12
+ * Create Time: 2024-04-01 Last Update: 2024-04-24
  *
  * @author BGLuminous
  * @since 1.0.0
@@ -31,6 +31,8 @@ public class BotConfig {
   private List<String> extraListenerPackage;
   /** 严格模式 */
   private Boolean strict;
+  /** 响应清理时间 单位秒  (默认60秒)*/
+  private Integer resCleanTime;
 
   private Map<String, String> custom;
 
@@ -39,6 +41,8 @@ public class BotConfig {
     this.reconnectDelayTime = 10;
     this.reconnectTryTimes = 3;
     this.strict = true;
+    this.resCleanTime = 60;
   }
+
 
 }

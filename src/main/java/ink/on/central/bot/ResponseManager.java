@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * API调用返回管理器
  * <p>
- * Create Time: 2024-04-12 Last Update:
+ * Create Time: 2024-04-12 Last Update: 2024-04-25
  *
  * @author BGLuminous
  * @since 1.2.0
@@ -33,7 +33,7 @@ public class ResponseManager {
       log.info("API调用返回管理器垃圾回收开始工作~");
       while (true) {
         try {
-          Thread.sleep(5000L);
+          Thread.sleep(ConfigManager.getConfig().getResCleanTime() * 1000L);
         } catch (Exception ex) {
           log.error(
             "垃圾回收线程睡眠过程发生错误! 错误信息:{} (如果是断开连接导致的错误请忽略, 垃圾回收线程会自动重启)",
