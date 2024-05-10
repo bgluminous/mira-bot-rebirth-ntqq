@@ -1,6 +1,5 @@
 package ink.on.central.bot;
 
-import ink.ik.tools.exception.normal.IkToolsReflectionException;
 import ink.ik.tools.toys.IkToyReflection;
 import ink.on.central.bot.annotation.MiraBotListener;
 import ink.on.central.bot.entity.event.AnalyzedEvent;
@@ -72,7 +71,7 @@ public class ListenerManager {
             .findConstructor(BotInstance.class).newInstance(botInstance);
         String registerEventTarget = listener.getEventId();
         compareAndInject(registerEventTarget, listener);
-      } catch (IkToolsReflectionException ex) {
+      } catch (Exception ex) {
         if (ConfigManager.getConfig().getStrict() == Boolean.TRUE) {
           throw new MiraBotError(
             "初始化监听器 %s 出错! 已启用严格模式, 正在退出/// 错误信息:%s"

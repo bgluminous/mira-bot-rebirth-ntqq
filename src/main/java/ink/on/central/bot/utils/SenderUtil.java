@@ -1,7 +1,7 @@
 package ink.on.central.bot.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import ink.ik.tools.toys.IkToySnowflakeSingleton;
+import ink.ik.tools.toys.IkToySnowflake;
 import ink.on.central.bot.Constant;
 import ink.on.central.bot.entity.SendSocketWrap;
 import ink.on.central.bot.entity.action.*;
@@ -84,7 +84,7 @@ public class SenderUtil {
    * @throws JsonProcessingException 序列化异常
    */
   public Long sendPrivateMessage(Long qqId, String cqCodeMessage) throws JsonProcessingException {
-    Long id = IkToySnowflakeSingleton.getInstance().nextId();
+    Long id = IkToySnowflake.Singleton.getInstance().nextId();
     SendMessage message = new SendMessage()
       .setMessageType(Constant.PRIVATE)
       .setUserId(qqId)
@@ -106,7 +106,7 @@ public class SenderUtil {
    */
   public Long sendPrivateMessage(Long qqId, MessagePart<?> singleMessage)
     throws JsonProcessingException {
-    Long id = IkToySnowflakeSingleton.getInstance().nextId();
+    Long id = IkToySnowflake.Singleton.getInstance().nextId();
     SendMessage message = new SendMessage()
       .setMessageType(Constant.PRIVATE)
       .setUserId(qqId)
@@ -128,7 +128,7 @@ public class SenderUtil {
    */
   public Long sendPrivateMessage(Long qqId, List<MessagePart<?>> messagePartList)
     throws JsonProcessingException {
-    Long id = IkToySnowflakeSingleton.getInstance().nextId();
+    Long id = IkToySnowflake.Singleton.getInstance().nextId();
     SendMessage message = new SendMessage()
       .setMessageType(Constant.PRIVATE)
       .setUserId(qqId)
@@ -163,7 +163,7 @@ public class SenderUtil {
    * @throws JsonProcessingException 序列化异常
    */
   public Long sendGroupMessage(Long groupId, String cqCodeMessage) throws JsonProcessingException {
-    Long id = IkToySnowflakeSingleton.getInstance().nextId();
+    Long id = IkToySnowflake.Singleton.getInstance().nextId();
     SendMessage message = new SendMessage()
       .setMessageType(Constant.GROUP)
       .setGroupId(groupId)
@@ -185,7 +185,7 @@ public class SenderUtil {
    */
   public Long sendGroupMessage(Long groupId, MessagePart<?> singleMessage)
     throws JsonProcessingException {
-    Long id = IkToySnowflakeSingleton.getInstance().nextId();
+    Long id = IkToySnowflake.Singleton.getInstance().nextId();
     SendMessage message = new SendMessage()
       .setMessageType(Constant.GROUP)
       .setGroupId(groupId)
@@ -207,7 +207,7 @@ public class SenderUtil {
    */
   public Long sendGroupMessage(Long groupId, List<MessagePart<?>> messagePartList)
     throws JsonProcessingException {
-    Long id = IkToySnowflakeSingleton.getInstance().nextId();
+    Long id = IkToySnowflake.Singleton.getInstance().nextId();
     SendMessage message = new SendMessage()
       .setMessageType(Constant.GROUP)
       .setGroupId(groupId)
@@ -255,7 +255,7 @@ public class SenderUtil {
    * @throws JsonProcessingException 序列化异常
    */
   public Long getMessage(Integer messageId) throws JsonProcessingException {
-    Long id = IkToySnowflakeSingleton.getInstance().nextId();
+    Long id = IkToySnowflake.Singleton.getInstance().nextId();
     send(
       createWrap(Constant.API.GET_MSG, new SendGetMessage().setMessageId(messageId), id)
     );
@@ -272,7 +272,7 @@ public class SenderUtil {
    * @throws JsonProcessingException 序列化异常
    */
   public Long getForwardMessage(Integer messageId) throws JsonProcessingException {
-    Long id = IkToySnowflakeSingleton.getInstance().nextId();
+    Long id = IkToySnowflake.Singleton.getInstance().nextId();
     send(
       createWrap(
         Constant.API.GET_FORWARD_MSG, new SendGetForwardMessage().setMessageId(messageId), id
@@ -434,7 +434,7 @@ public class SenderUtil {
    * @throws JsonProcessingException 序列化异常
    */
   public Long sendGetLoginInfo() throws JsonProcessingException {
-    Long id = IkToySnowflakeSingleton.getInstance().nextId();
+    Long id = IkToySnowflake.Singleton.getInstance().nextId();
     send(createWrap(Constant.API.GET_LOGIN_INFO, Collections.emptyMap(), id));
     return id;
   }
@@ -449,7 +449,7 @@ public class SenderUtil {
    * @throws JsonProcessingException 序列化异常
    */
   public Long sendGetStrangerInfo(SendGetStrangerInfo info) throws JsonProcessingException {
-    Long id = IkToySnowflakeSingleton.getInstance().nextId();
+    Long id = IkToySnowflake.Singleton.getInstance().nextId();
     send(createWrap(Constant.API.GET_STRANGER_INFO, info, id));
     return id;
   }
@@ -462,7 +462,7 @@ public class SenderUtil {
    * @throws JsonProcessingException 序列化异常
    */
   public Long sendGetFriendList() throws JsonProcessingException {
-    Long id = IkToySnowflakeSingleton.getInstance().nextId();
+    Long id = IkToySnowflake.Singleton.getInstance().nextId();
     send(createWrap(Constant.API.GET_FRIEND_LIST, Collections.emptyMap(), id));
     return id;
   }
@@ -475,7 +475,7 @@ public class SenderUtil {
    * @throws JsonProcessingException 序列化异常
    */
   public Long sendGetGroupList() throws JsonProcessingException {
-    Long id = IkToySnowflakeSingleton.getInstance().nextId();
+    Long id = IkToySnowflake.Singleton.getInstance().nextId();
     send(createWrap(Constant.API.GET_GROUP_LIST, Collections.emptyMap(), id));
     return id;
   }
@@ -490,7 +490,7 @@ public class SenderUtil {
    * @throws JsonProcessingException 序列化异常
    */
   public Long sendGetGroupInfo(SendGetGroupInfo info) throws JsonProcessingException {
-    Long id = IkToySnowflakeSingleton.getInstance().nextId();
+    Long id = IkToySnowflake.Singleton.getInstance().nextId();
     send(createWrap(Constant.API.GET_GROUP_INFO, info, id));
     return id;
   }
@@ -505,7 +505,7 @@ public class SenderUtil {
    * @throws JsonProcessingException 序列化异常
    */
   public Long sendGetGroupMemberInfo(SendGetGroupMemberInfo info) throws JsonProcessingException {
-    Long id = IkToySnowflakeSingleton.getInstance().nextId();
+    Long id = IkToySnowflake.Singleton.getInstance().nextId();
     send(createWrap(Constant.API.GET_GROUP_MEMBER_INFO, info, id));
     return id;
   }
@@ -520,7 +520,7 @@ public class SenderUtil {
    * @throws JsonProcessingException 序列化异常
    */
   public Long sendGetGroupMemberList(SendGetGroupMemberList list) throws JsonProcessingException {
-    Long id = IkToySnowflakeSingleton.getInstance().nextId();
+    Long id = IkToySnowflake.Singleton.getInstance().nextId();
     send(createWrap(Constant.API.GET_GROUP_MEMBER_LIST, list, id));
     return id;
   }
@@ -536,7 +536,7 @@ public class SenderUtil {
    */
   public Long sendGetGroupHonorInfo(SendGetGroupHonorInfo honorInfo)
     throws JsonProcessingException {
-    Long id = IkToySnowflakeSingleton.getInstance().nextId();
+    Long id = IkToySnowflake.Singleton.getInstance().nextId();
     send(createWrap(Constant.API.GET_GROUP_HONOR_INFO, honorInfo, id));
     return id;
   }
@@ -549,7 +549,7 @@ public class SenderUtil {
    * @throws JsonProcessingException 序列化异常
    */
   public Long sendGetCredentials() throws JsonProcessingException {
-    Long id = IkToySnowflakeSingleton.getInstance().nextId();
+    Long id = IkToySnowflake.Singleton.getInstance().nextId();
     send(createWrap(Constant.API.GET_CREDENTIAL, Collections.emptyMap(), id));
     return id;
   }
@@ -564,7 +564,7 @@ public class SenderUtil {
    * @throws JsonProcessingException 序列化异常
    */
   public Long sendGetRecord(SendGetRecord voice) throws JsonProcessingException {
-    Long id = IkToySnowflakeSingleton.getInstance().nextId();
+    Long id = IkToySnowflake.Singleton.getInstance().nextId();
     send(createWrap(Constant.API.GET_RECORD, voice, id));
     return id;
   }
@@ -579,7 +579,7 @@ public class SenderUtil {
    * @throws JsonProcessingException 序列化异常
    */
   public Long sendGetImage(SendGetImage image) throws JsonProcessingException {
-    Long id = IkToySnowflakeSingleton.getInstance().nextId();
+    Long id = IkToySnowflake.Singleton.getInstance().nextId();
     send(createWrap(Constant.API.GET_IMAGE, image, id));
     return id;
   }
@@ -592,7 +592,7 @@ public class SenderUtil {
    * @throws JsonProcessingException 序列化异常
    */
   public Long sendCanSendImage() throws JsonProcessingException {
-    Long id = IkToySnowflakeSingleton.getInstance().nextId();
+    Long id = IkToySnowflake.Singleton.getInstance().nextId();
     send(createWrap(Constant.API.CAN_SEND_IMAGE, Collections.emptyMap(), id));
     return id;
   }
@@ -605,7 +605,7 @@ public class SenderUtil {
    * @throws JsonProcessingException 序列化异常
    */
   public Long sendCanSendVoice() throws JsonProcessingException {
-    Long id = IkToySnowflakeSingleton.getInstance().nextId();
+    Long id = IkToySnowflake.Singleton.getInstance().nextId();
     send(createWrap(Constant.API.CAN_SEND_VOICE, Collections.emptyMap(), id));
     return id;
   }
@@ -618,7 +618,7 @@ public class SenderUtil {
    * @throws JsonProcessingException 序列化异常
    */
   public Long sendGetStatus() throws JsonProcessingException {
-    Long id = IkToySnowflakeSingleton.getInstance().nextId();
+    Long id = IkToySnowflake.Singleton.getInstance().nextId();
     send(createWrap(Constant.API.GET_STATUS, Collections.emptyMap(), id));
     return id;
   }
@@ -631,7 +631,7 @@ public class SenderUtil {
    * @throws JsonProcessingException 序列化异常
    */
   public Long sendGetVersionInfo() throws JsonProcessingException {
-    Long id = IkToySnowflakeSingleton.getInstance().nextId();
+    Long id = IkToySnowflake.Singleton.getInstance().nextId();
     send(createWrap(Constant.API.GET_VERSION_INFO, Collections.emptyMap(), id));
     return id;
   }

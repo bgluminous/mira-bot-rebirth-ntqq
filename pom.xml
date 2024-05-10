@@ -6,7 +6,7 @@
 
   <groupId>ink.on.central.bot</groupId>
   <artifactId>mira-bot-rebirth-ntqq</artifactId>
-  <version>1.4.1</version>
+  <version>1.5.0</version>
 
   <!-- Meta Data -->
   <name>mira-bot-rebirth-ntqq</name>
@@ -74,7 +74,7 @@
     <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <dep.version.ik-tools>0.0.8-20231109.070933-2</dep.version.ik-tools>
+    <dep.version.ik-tools>1.0.1-SNAPSHOT</dep.version.ik-tools>
     <dep.version.slf4j-api>2.0.12</dep.version.slf4j-api>
     <dep.version.reflections>0.10.2</dep.version.reflections>
     <dep.version.jackson-databind>2.16.1</dep.version.jackson-databind>
