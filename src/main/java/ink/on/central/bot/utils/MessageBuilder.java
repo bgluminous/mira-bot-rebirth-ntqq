@@ -132,6 +132,16 @@ public class MessageBuilder {
     return this;
   }
 
+  public MessageBuilder addAt(long qqid) {
+    messagePartList.add(at(String.valueOf(qqid)));
+    return this;
+  }
+
+  public MessageBuilder addLineBreak() {
+    messagePartList.add(text("\n"));
+    return this;
+  }
+
   /**
    * 构建at消息片段
    *
@@ -145,6 +155,10 @@ public class MessageBuilder {
     return new MessagePart<Map<String, String>>()
       .setType("at")
       .setData(dataMap);
+  }
+
+  public static MessagePart<?> at(long qqid) {
+    return at(String.valueOf(qqid));
   }
 
   /**

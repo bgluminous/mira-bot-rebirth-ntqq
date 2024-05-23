@@ -24,6 +24,7 @@ public class AnalyzedEvent {
   private String responseId;
 
   public String getEventId() {
-    return eventType + subType;
+    return "%s > %s".formatted(eventType, subType);
   }
+
 }

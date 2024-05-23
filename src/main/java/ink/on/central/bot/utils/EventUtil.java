@@ -3,9 +3,13 @@ package ink.on.central.bot.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import ink.on.central.bot.EventEntityMapper;
 import ink.on.central.bot.entity.event.AnalyzedEvent;
+import ink.on.central.bot.entity.event.UnknownEvent;
 import ink.on.central.bot.exception.MiraBotException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 事件实体分析工具
@@ -16,6 +20,7 @@ import java.util.Map;
  * @since 1.0.0
  */
 public class EventUtil {
+  private static final Logger log = LoggerFactory.getLogger(EventUtil.class);
 
   private EventUtil() {
   }
@@ -47,13 +52,19 @@ public class EventUtil {
       case "notice" -> subType = nodeMap.get("notice_type").toString();
       case "request" -> subType = nodeMap.get("request_type").toString();
       case "message" -> subType = nodeMap.get("message_type").toString();
-      default -> throw new MiraBotException("未知的事件类型! [%s]".formatted(eventType));
+      default -> subType = "unknown";
     }
-    Class<?> eventEntityClass = EventEntityMapper.getEventEntity(eventType, subType);
-    if (eventEntityClass == null) {
-      throw new MiraBotException("未实现的事件类型! [%s > %s]".formatted(eventType, subType));
+    Object data;
+    if (Objects.equals(subType, "unknown")) {
+      log.warn("未知的事件类型! [%s]".formatted(eventType));
+      data = new UnknownEvent().setRaw(json);
+    } else {
+      Class<?> eventEntityClass = EventEntityMapper.getEventEntity(eventType, subType);
+      if (eventEntityClass == null) {
+        throw new MiraBotException("未实现的事件类型! [%s > %s]".formatted(eventType, subType));
+      }
+      data = JacksonUtil.parse(json, eventEntityClass);
     }
-    Object data = JacksonUtil.parse(json, eventEntityClass);
     return new AnalyzedEvent()
       .setEventType(eventType)
       .setSubType(subType)

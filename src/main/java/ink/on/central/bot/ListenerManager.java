@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 事件监听器管理器
@@ -28,7 +29,7 @@ public class ListenerManager {
 
   /** 事件监听器和事件ID的映射 */
   @SuppressWarnings("rawtypes")
-  private final Map<String, List<ListenerTemplate>> listenerMap = new HashMap<>();
+  private final ConcurrentHashMap<String, List<ListenerTemplate>> listenerMap = new ConcurrentHashMap<>();
 
   /**
    * 扫描和检查事件监听器
@@ -86,19 +87,12 @@ public class ListenerManager {
   /**
    * 比较并注入事件监听器
    *
-   * @param eventId           事件ID
+   * @param eventId          事件ID
    * @param listenerInstance 事件监听器
    */
   @SuppressWarnings("rawtypes")
   public static void compareAndInject(String eventId, ListenerTemplate listenerInstance) {
-    List<ListenerTemplate> listenerList = Holder.INSTANCE.listenerMap.get(eventId);
-    if (listenerList == null) {
-      List<ListenerTemplate> newListenerList = new ArrayList<>();
-      newListenerList.add(listenerInstance);
-      Holder.INSTANCE.listenerMap.put(eventId, newListenerList);
-      return;
-    }
-    listenerList.add(listenerInstance);
+    Holder.INSTANCE.listenerMap.computeIfAbsent(eventId, key -> new ArrayList<>()).add(listenerInstance);
   }
 
   /**

@@ -48,6 +48,7 @@ public class EventEntityMapper {
     noticeEventMapper.put("group_increase", GroupMemberIncreaseEvent.class);
     noticeEventMapper.put("group_ban", GroupMemberBanEvent.class);
     noticeEventMapper.put("group_recall", GroupMessageRecallEvent.class);
+    noticeEventMapper.put("group_card", GroupCardChangedEvent.class);
     noticeEventMapper.put("notify", GroupNotifyEvent.class);
     MAPPER.put("notice", noticeEventMapper);
     // 注入请求事件实体映射

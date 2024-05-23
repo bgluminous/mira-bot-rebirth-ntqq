@@ -41,7 +41,7 @@ public class ListenerTemplate<T> {
     BotInstance instance, String targetEvent, String targetSubType
   ) {
     this.instance = instance;
-    this.eventId = targetEvent + targetSubType;
+    this.eventId = "%s > %s".formatted(targetEvent, targetSubType);
     log = LoggerFactory.getLogger(this.getClass().getSimpleName());
   }
 
