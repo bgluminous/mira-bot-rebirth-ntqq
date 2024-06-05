@@ -16,6 +16,8 @@ import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -68,6 +70,12 @@ public class BotInstance {
 
     /** 已经尝试的重连次数 */
     private Integer retriedTimes = -1;
+    /** 是否从重连中恢复 */
+    private boolean isReconnect = false;
+    /** 重连钩子 */
+    private final List<Runnable> reconnectHook = new ArrayList<>();
+    /** 断开钩子 */
+    private final List<Runnable> closeHook = new ArrayList<>();
 
     /**
      * 构造函数
@@ -83,6 +91,10 @@ public class BotInstance {
       log.info("连接到到Bot连接 ~");
       BotInstanceManager.regSocket("default", this);
       retriedTimes = 0;
+      if (this.isReconnect) {
+        reconnectHook.forEach(Runnable::run);
+        isReconnect = false;
+      }
     }
 
     @Override
@@ -92,12 +104,21 @@ public class BotInstance {
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
+      closeHook.forEach(Runnable::run);
       processClose(code, reason, remote);
     }
 
     @Override
     public void onError(Exception ex) {
       log.warn("Socket处理过程出错! 错误信息:{}", ex.getMessage());
+    }
+
+    public void addReconnectHook(Runnable runnable) {
+      reconnectHook.add(runnable);
+    }
+
+    public void addCloseHook(Runnable runnable) {
+      closeHook.add(runnable);
     }
 
     /**
@@ -129,6 +150,7 @@ public class BotInstance {
         }
         client.close();
         if (!client.isOpen()) {
+          isReconnect = true;
           new Thread(client::reconnect).start();
         }
       }
